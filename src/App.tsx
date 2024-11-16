@@ -1,16 +1,26 @@
-import { useEffect } from "react";
-
-import WorldPopulation from "./plots/WorldPopulation.js";
-import { getPopulationData } from "./functions/getPopulationData.js";
+import { useEffect, useState } from "react";
+import { getPopulationData } from "./functions/getPopulationData";
+import WorldPopulation from "./plots/WorldPopulation";
 
 function App() {
-  async function getData() {
-    const { worldPopulation } = await getPopulationData();
-    console.log(worldPopulation);
-  }
+  const [worldPopulation, setWorldPopulation] = useState<{
+    [key: string]: number;
+  } | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    getData();
+    const fetchData = async () => {
+      try {
+        const { worldPopulation } = await getPopulationData();
+        setWorldPopulation(worldPopulation);
+        console.log(worldPopulation);
+      } catch (err) {
+        console.error("failed to fetch population data", err);
+        setError("Failed to load population data. Please try again later.");
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (

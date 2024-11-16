@@ -1,27 +1,41 @@
 {
   "compilerOptions": {
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
+    /* Language options */
+    "target": "ES2020", // Target modern JavaScript features
+    "useDefineForClassFields": true, // Use ECMAScript standard for class fields
 
-    /* Bundler mode */
-    "moduleResolution": "nodenext",
-    "allowImportingTsExtensions": true,
-    "isolatedModules": true,
-    "moduleDetection": "force",
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "strictNullChecks": true,
+    /* Library inclusion */
+    "lib": ["ES2020", "DOM", "DOM.Iterable"], // Include standard library files
 
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    /* Module settings */
+    "module": "ESNext", // Use the latest ECMAScript module system
+    "moduleResolution": "Node", // Use Node.js style resolution
+    "resolveJsonModule": true, // Allow importing JSON files as modules
+    "isolatedModules": true, // Ensure each file can be transpiled separately
+    "noEmit": true, // Disable emitting output files
+
+    /* JSX settings */
+    "jsx": "react-jsx", // Use the new JSX transform in React 17+
+
+    /* Compatibility */
+    "skipLibCheck": true, // Skip type checking of declaration files
+    "allowSyntheticDefaultImports": true, // Allow default imports from modules with no default export
+
+    /* Type checking */
+    "strict": true, // Enable all strict type-checking options
+    "noUnusedLocals": true, // Report errors on unused locals
+    "noUnusedParameters": true, // Report errors on unused parameters
+    "noFallthroughCasesInSwitch": true, // Report errors for fallthrough cases in switch statements
+
+    /* TypeScript 5.0+ */
+    "allowImportingTsExtensions": true, // Allow importing TypeScript files with extension
+
+    // Shadcn
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
-  "include": ["src"]
+  "include": ["src"], // Include all files in the src directory
+  "references": [{ "path": "./tsconfig.node.json" }] // Reference another tsconfig file
 }
