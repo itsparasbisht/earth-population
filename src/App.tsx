@@ -13,7 +13,6 @@ function App() {
       try {
         const { worldPopulation } = await getPopulationData();
         setWorldPopulation(worldPopulation);
-        console.log(worldPopulation);
       } catch (err) {
         console.error("failed to fetch population data", err);
         setError("Failed to load population data. Please try again later.");
@@ -28,7 +27,7 @@ function App() {
       <main className="flex h-full">
         <section className="w-1/4 border-r">Sidebar</section>
         <section className="w-3/4">
-          <WorldPopulation />
+          <WorldPopulation data={worldPopulation} />
         </section>
       </main>
     </div>

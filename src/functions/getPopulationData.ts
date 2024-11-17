@@ -4,8 +4,8 @@ type PopulationData = {
   worldPopulation: { [key: string]: number };
 };
 
-const HEADER_INDEX = 2;
-const DATA_START_INDEX = 3;
+const HEADER_INDEX = 4;
+const DATA_START_INDEX = 5;
 const YEAR_START_INDEX = 4;
 
 export async function getPopulationData(): Promise<PopulationData> {
@@ -19,6 +19,7 @@ export async function getPopulationData(): Promise<PopulationData> {
     Papa.parse(csvText, {
       skipEmptyLines: true,
       complete: (result: { data: string[][] }) => {
+        console.log(result.data);
         headers = result.data[HEADER_INDEX];
         data = result.data.slice(DATA_START_INDEX);
       },
@@ -50,11 +51,14 @@ export async function getPopulationData(): Promise<PopulationData> {
       country.slice(YEAR_START_INDEX).forEach((population, index) => {
         const year = years[index];
         const populationValue = parseInt(population, 10);
+        console.log(year, populationValue);
         if (!isNaN(populationValue)) {
           worldPopulation[year] += populationValue;
         }
       });
     });
+
+    console.log(">>>", worldPopulation);
 
     return { worldPopulation };
   } catch (error) {
