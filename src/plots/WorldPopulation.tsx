@@ -1,6 +1,7 @@
 import { formatBigNumber } from "../utils/formatter";
 import * as echarts from "echarts";
 import { useEffect } from "react";
+import PopulationGrowthGrid from "./PopulationGrowthGrid";
 
 type WorldPopulation = {
   data: { [key: string]: number } | null;
@@ -10,12 +11,15 @@ export default function WorldPopulation({ data }: WorldPopulation) {
   useEffect(() => {
     if (data) {
       generatePlot(data);
+      const growthRate = objWithGrowthRate(data);
+      console.log(growthRate);
     }
   }, [data]);
 
   return (
     <>
-      <div id="world-population" className="w-full h-full p-4"></div>
+      <div id="world-population" className="w-full h-[80%] p-4"></div>
+      <PopulationGrowthGrid populationData={data} />
     </>
   );
 }
@@ -78,4 +82,25 @@ function generatePlot(data: { [key: string]: number } | null) {
   };
 
   option && plot.setOption(option);
+}
+
+function objWithGrowthRate(data: { [key: string]: number }) {
+  const result = Object.keys(data).map((year, index, years) => {
+    const population = data[year];
+    const previousPopulation = index > 0 ? data[years[index - 1]] : null;
+    const growthRate = previousPopulation
+      ? (
+          ((population - previousPopulation) / previousPopulation) *
+          100
+        ).toFixed(2)
+      : null;
+
+    return {
+      year: parseInt(year),
+      population: population,
+      growth_rate: growthRate ? parseFloat(growthRate) : null,
+    };
+  });
+
+  return result;
 }
