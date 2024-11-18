@@ -36,29 +36,21 @@ function generatePlot(data: { [key: string]: number } | null) {
   console.log(yearList, valueList);
 
   let option = {
-    // Make gradient line here
-    visualMap: [
-      {
-        show: false,
-        type: "continuous",
-        seriesIndex: 0,
-        min: 0,
-        max: 400,
-      },
-    ],
     title: [
       {
         left: "right",
         text: "World Population since 1960",
         textStyle: {
           color: "black",
-          fontFamily: "monospace",
+          fontFamily: "Merriweather",
         },
       },
     ],
     tooltip: {
       trigger: "axis",
-      valueFormatter: (value: number) => formatBigNumber.format(value),
+      valueFormatter: (value: number) => `${formatBigNumber.format(value)}`,
+      color: "black",
+      fontFamily: "Merriweather",
     },
     xAxis: [
       {
@@ -74,10 +66,15 @@ function generatePlot(data: { [key: string]: number } | null) {
         data: valueList,
         lineStyle: {
           color: "black",
-          width: 4,
+          width: 3,
         },
       },
     ],
+    textStyle: {
+      color: "black",
+      fontFamily: "Merriweather",
+    },
+    color: "#ff2b6e",
   };
 
   option && plot.setOption(option);

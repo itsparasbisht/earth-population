@@ -19,7 +19,6 @@ export async function getPopulationData(): Promise<PopulationData> {
     Papa.parse(csvText, {
       skipEmptyLines: true,
       complete: (result: { data: string[][] }) => {
-        console.log(result.data);
         headers = result.data[HEADER_INDEX];
         data = result.data.slice(DATA_START_INDEX);
       },
@@ -51,7 +50,6 @@ export async function getPopulationData(): Promise<PopulationData> {
       country.slice(YEAR_START_INDEX).forEach((population, index) => {
         const year = years[index];
         const populationValue = parseInt(population, 10);
-        console.log(year, populationValue);
         if (!isNaN(populationValue)) {
           worldPopulation[year] += populationValue;
         }
