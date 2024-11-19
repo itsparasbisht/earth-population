@@ -6,39 +6,47 @@ type PopulationGrowth = {
   growth_rate: number | null;
 };
 
-export default function PopulationGrowthGrid({
-  populationData,
-}: {
-  [key: string]: number;
-}) {
+type WorldPopulation = {
+  data: { [key: string]: number } | null;
+};
+
+export default function PopulationGrowthGrid({ data }: WorldPopulation) {
   const [populationGrowthRate, setPopulationGrowthRate] = useState<
     PopulationGrowth[]
   >([]);
 
   useEffect(() => {
-    if (populationData) {
-      const response = objWithGrowthRate(populationData);
+    if (data) {
+      const response = objWithGrowthRate(data);
       setPopulationGrowthRate(response);
     }
-  }, [populationData]);
+  }, [data]);
 
   return (
-    <div className="flex p-4">
-      {populationGrowthRate.map((item) => (
-        <div
-          key={item.year}
-          className="w-5 h-12"
-          style={{ backgroundColor: getColorByGrowthRate(item.growth_rate) }}
-          title={`Year: ${item.year}, Growth Rate: ${
-            item.growth_rate ?? "N/A"
-          }%`}
-        >
-          {/* Accessible content for screen readers */}
-          <span className="sr-only">{`Year: ${item.year}, Growth Rate: ${
-            item.growth_rate ?? "N/A"
-          }%`}</span>
-        </div>
-      ))}
+    <div className="p-4 pt-0">
+      <h2 className="text-xl font-semibold">
+        Population growth rate over the years{" "}
+        <span className="text-lg font-normal text-red-600">
+          (hover over grid for growth rate)
+        </span>
+      </h2>
+      <div className="flex p-4">
+        {populationGrowthRate.map((item) => (
+          <div
+            key={item.year}
+            className="w-5 h-12"
+            style={{ backgroundColor: getColorByGrowthRate(item.growth_rate) }}
+            title={`Year: ${item.year}, Growth Rate: ${
+              item.growth_rate ?? "N/A"
+            }%`}
+          >
+            {/* Accessible content for screen readers */}
+            <span className="sr-only">{`Year: ${item.year}, Growth Rate: ${
+              item.growth_rate ?? "N/A"
+            }%`}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
