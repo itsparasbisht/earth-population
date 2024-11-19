@@ -11,8 +11,6 @@ export default function WorldPopulation({ data }: WorldPopulation) {
   useEffect(() => {
     if (data) {
       generatePlot(data);
-      const growthRate = objWithGrowthRate(data);
-      console.log(growthRate);
     }
   }, [data]);
 
@@ -20,7 +18,7 @@ export default function WorldPopulation({ data }: WorldPopulation) {
     <>
       <div className="p-4">
         <h2 className="text-3xl font-semibold text-gray-900">
-          Total World Population and Growth Rate
+          Total World Population and Growth Rate (1960-2023)
         </h2>
         <p className="max-w-[70%] pt-1 text-gray-900">
           The graph below illustrates the remarkable expansion of the global
@@ -66,7 +64,7 @@ function generatePlot(data: { [key: string]: number } | null) {
     },
     tooltip: {
       trigger: "axis",
-      valueFormatter: (value: number) => `${formatBigNumber.format(value)}`,
+      valueFormatter: (value: number) => `${formatBigNumber(value, 4)}`,
       color: "black",
       fontFamily: "Merriweather",
     },
@@ -75,7 +73,15 @@ function generatePlot(data: { [key: string]: number } | null) {
         data: yearList,
       },
     ],
-    yAxis: [{}],
+    yAxis: [
+      {
+        axisLabel: {
+          formatter: function (value: number) {
+            return formatBigNumber(value);
+          },
+        },
+      },
+    ],
     series: [
       {
         type: "line",
@@ -96,25 +102,4 @@ function generatePlot(data: { [key: string]: number } | null) {
   };
 
   option && plot.setOption(option);
-}
-
-function objWithGrowthRate(data: { [key: string]: number }) {
-  const result = Object.keys(data).map((year, index, years) => {
-    const population = data[year];
-    const previousPopulation = index > 0 ? data[years[index - 1]] : null;
-    const growthRate = previousPopulation
-      ? (
-          ((population - previousPopulation) / previousPopulation) *
-          100
-        ).toFixed(2)
-      : null;
-
-    return {
-      year: parseInt(year),
-      population: population,
-      growth_rate: growthRate ? parseFloat(growthRate) : null,
-    };
-  });
-
-  return result;
 }

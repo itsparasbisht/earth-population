@@ -17,7 +17,7 @@ export default function PopulationGrowthGrid({ data }: WorldPopulation) {
 
   useEffect(() => {
     if (data) {
-      const response = objWithGrowthRate(data);
+      const response = provideGrowthRate(data);
       setPopulationGrowthRate(response);
     }
   }, [data]);
@@ -51,7 +51,7 @@ export default function PopulationGrowthGrid({ data }: WorldPopulation) {
   );
 }
 
-function objWithGrowthRate(data: { [key: string]: number }) {
+function provideGrowthRate(data: { [key: string]: number }) {
   const result = Object.keys(data).map((year, index, years) => {
     const population = data[year];
     const previousPopulation = index > 0 ? data[years[index - 1]] : null;
@@ -73,10 +73,10 @@ function objWithGrowthRate(data: { [key: string]: number }) {
 }
 
 function getColorByGrowthRate(growthRate: number | null) {
-  if (growthRate === null) return "bg-gray-300"; // Neutral color for no growth
-  const intensity = Math.min(Math.max(growthRate, 0), 5) * 170; // Cap growth rate between 0 and 5
+  if (growthRate === null) return "bg-gray-300";
+  const intensity = Math.min(Math.max(growthRate, 0), 5) * 180;
   const r = Math.min(255 - intensity);
-  const g = Math.min(255 - intensity / 2);
+  const g = Math.min(255 - intensity / 1.8);
   const b = Math.min(255 - intensity);
   return `rgb(${r}, ${g}, ${b})`;
 }
