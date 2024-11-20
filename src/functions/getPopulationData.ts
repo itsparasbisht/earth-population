@@ -1,7 +1,14 @@
 import Papa from "papaparse";
 
-type PopulationData = {
+export type CountryPopulation = {
+  country: string;
+  code: string;
+  population: number;
+};
+
+export type PopulationData = {
   worldPopulation: { [key: string]: number };
+  countriesPopulation: CountryPopulation[];
 };
 
 const HEADER_INDEX = 4;
@@ -45,8 +52,11 @@ export async function getPopulationData(): Promise<PopulationData> {
       {} as { [key: string]: number }
     );
 
-    // calculate world population
+    // initialize countriesPopulation
+    const countriesPopulation: CountryPopulation[] = [];
+
     data.forEach((country) => {
+      // calculate world population
       country.slice(YEAR_START_INDEX).forEach((population, index) => {
         const year = years[index];
         const populationValue = parseInt(population, 10);
@@ -54,11 +64,24 @@ export async function getPopulationData(): Promise<PopulationData> {
           worldPopulation[year] += populationValue;
         }
       });
+
+      // calculate country population
+      const countryName = country[0];
+      const countryCode = country[1];
+      let countryPopulation = parseInt(country[country.length - 1], 10);
+
+      if (countryName && countryCode && !isNaN(countryPopulation)) {
+        countriesPopulation.push({
+          country: countryName,
+          code: countryCode,
+          population: countryPopulation,
+        });
+      }
     });
 
-    console.log(">>>", worldPopulation);
+    // console.log("country", countriesPopulation);
 
-    return { worldPopulation };
+    return { worldPopulation, countriesPopulation };
   } catch (error) {
     console.error("failed to fetch and process CSV", error);
     throw error;

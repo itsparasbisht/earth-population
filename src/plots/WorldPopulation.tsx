@@ -3,11 +3,11 @@ import * as echarts from "echarts";
 import { useEffect } from "react";
 import PopulationGrowthGrid from "./PopulationGrowthGrid";
 
-type WorldPopulation = {
+type WorldPopulationProps = {
   data: { [key: string]: number } | null;
 };
 
-export default function WorldPopulation({ data }: WorldPopulation) {
+export default function WorldPopulation({ data }: WorldPopulationProps) {
   useEffect(() => {
     if (data) {
       generatePlot(data);
@@ -15,8 +15,8 @@ export default function WorldPopulation({ data }: WorldPopulation) {
   }, [data]);
 
   return (
-    <>
-      <div className="p-4">
+    <div className="w-full h-full">
+      <div className="p-4 h-[20%]">
         <h2 className="text-3xl font-semibold text-gray-900">
           Total World Population and Growth Rate (1960-2023)
         </h2>
@@ -26,14 +26,15 @@ export default function WorldPopulation({ data }: WorldPopulation) {
           billion by 2023—an astonishing threefold increase over 63 years.
         </p>
       </div>
-      <div id="world-population" className="w-full h-[74%] p-4"></div>
-      <PopulationGrowthGrid data={data} />
-    </>
+      <div id="world-population" className="w-full h-[60%] p-4"></div>
+      <div className="h-[20%]">
+        <PopulationGrowthGrid data={data} />
+      </div>
+    </div>
   );
 }
 
 function generatePlot(data: { [key: string]: number } | null) {
-  console.log(data);
   let plotEl = document.getElementById("world-population");
   let plot = echarts.init(plotEl);
 
@@ -45,18 +46,12 @@ function generatePlot(data: { [key: string]: number } | null) {
     valueList.push(data[year]);
   }
 
-  console.log(yearList, valueList);
-
   let option = {
     title: [
       {
         show: false,
         left: "right",
         text: "World Population since 1960",
-        textStyle: {
-          color: "black",
-          fontFamily: "Merriweather",
-        },
       },
     ],
     grid: {
@@ -65,8 +60,6 @@ function generatePlot(data: { [key: string]: number } | null) {
     tooltip: {
       trigger: "axis",
       valueFormatter: (value: number) => `${formatBigNumber(value, 4)}`,
-      color: "black",
-      fontFamily: "Merriweather",
     },
     xAxis: [
       {

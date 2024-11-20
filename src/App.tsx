@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { getPopulationData } from "./functions/getPopulationData";
+import {
+  getPopulationData,
+  PopulationData,
+} from "./functions/getPopulationData";
 import TopPopulationCountries from "./plots/TopPopulationCountries";
 import WorldPopulation from "./plots/WorldPopulation";
 
@@ -12,9 +15,10 @@ const sidebarOptions = [
 ];
 
 function App() {
-  const [worldPopulation, setWorldPopulation] = useState<{
-    [key: string]: number;
-  } | null>(null);
+  const [populationData, setPopulationData] = useState<PopulationData>({
+    worldPopulation: {},
+    countriesPopulation: [],
+  });
   const [error, setError] = useState<string | null>(null);
 
   const [selectedOption, setSelectedOption] = useState(sidebarOptions[0].id);
@@ -22,8 +26,9 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { worldPopulation } = await getPopulationData();
-        setWorldPopulation(worldPopulation);
+        const { worldPopulation, countriesPopulation } =
+          await getPopulationData();
+        setPopulationData({ worldPopulation, countriesPopulation });
       } catch (err) {
         console.error("failed to fetch population data", err);
         setError("Failed to load population data. Please try again later.");
@@ -39,6 +44,7 @@ function App() {
         <section className="w-1/4 border-r p-2">
           {sidebarOptions.map((item) => (
             <p
+              key={item.id}
               className={`${
                 selectedOption === item.id
                   ? "bg-gray-900 text-gray-100"
@@ -52,9 +58,13 @@ function App() {
         </section>
         <section className="w-3/4">
           {selectedOption === "world-population" && (
-            <WorldPopulation data={worldPopulation} />
+            <WorldPopulation data={populationData?.worldPopulation} />
           )}
-          {selectedOption === "top-50" && <TopPopulationCountries />}
+          {selectedOption === "top-50" && (
+            <TopPopulationCountries
+              data={populationData?.countriesPopulation}
+            />
+          )}
         </section>
       </main>
     </div>
