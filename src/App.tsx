@@ -11,7 +11,7 @@ const sidebarOptions = [
     title: "Total World Population and Growth Rate (1960-2023)",
     id: "world-population",
   },
-  { title: "Top 50 countries by population", id: "top-50" },
+  { title: "Population by Country", id: "by-country" },
 ];
 
 function App() {
@@ -60,7 +60,7 @@ function App() {
           {selectedOption === "world-population" && (
             <WorldPopulation data={populationData?.worldPopulation} />
           )}
-          {selectedOption === "top-50" && (
+          {selectedOption === "by-country" && (
             <TopPopulationCountries
               data={populationData?.countriesPopulation}
             />
