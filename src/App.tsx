@@ -40,7 +40,7 @@ function App() {
 
   return (
     <div className="w-screen h-screen">
-      <main className="flex h-full">
+      <main className="flex w-full h-full">
         <section className="w-1/4 border-r p-2">
           {sidebarOptions.map((item) => (
             <p
