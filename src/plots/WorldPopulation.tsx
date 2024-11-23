@@ -17,12 +17,10 @@ export default function WorldPopulation({ data }: WorldPopulationProps) {
 
   return (
     <div className="w-full h-full">
-      <div className="p-4">
-        <h2 className="text-3xl font-semibold text-gray-900">
-          Total World Population and Growth Rate (1960-2023)
-        </h2>
-      </div>
-      <div id="world-population" className="w-full h-[75%] p-4"></div>
+      <div
+        id="world-population"
+        className="w-full min-w-[600px] h-[80%] p-4"
+      ></div>
       <div className="w-full">
         <PopulationGrowthGrid data={data} />
       </div>
@@ -45,13 +43,13 @@ function generatePlot(data: { [key: string]: number } | null) {
   let option = {
     title: [
       {
-        show: false,
+        show: true,
         left: "right",
-        text: "World Population since 1960",
+        text: "Total World Population (1960-2023)",
       },
     ],
     grid: {
-      top: 30,
+      top: 60,
     },
     tooltip: {
       trigger: "axis",

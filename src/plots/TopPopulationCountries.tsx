@@ -18,19 +18,23 @@ export default function TopPopulationCountries({
   data,
 }: TopPopulationCountriesProps) {
   const [selectedItem, setSelectedItem] = useState("Top 10");
+  const [analysedData, setAnalysedData] = useState({
+    populationOfTop10: 0,
+    totalPopulation: 0,
+    populationOfTop10InPercentage: 0,
+  });
 
   useEffect(() => {
     if (data) {
       const sortedData = data.sort((a, b) => a.population - b.population);
       generatePlot(sortedData, selectedItem);
-      console.log(sortedData);
+      const res = populationContributors(sortedData);
+      setAnalysedData(res);
     }
   }, [data, selectedItem]);
 
-  console.log("selected", selectedItem);
-
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full p-4">
       <Select onValueChange={setSelectedItem} value={selectedItem}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Top 10" defaultValue="Top 10" />
@@ -43,7 +47,31 @@ export default function TopPopulationCountries({
           ))}
         </SelectContent>
       </Select>
-      <div id="countries-population" className="w-full h-[100%] p-4"></div>
+      <div id="countries-population" className="w-full h-[80%] p-4"></div>
+      {analysedData.populationOfTop10 > 0 && (
+        <div className="w-full h-[60px] flex my-4">
+          <div
+            className="bg-gray-900 h-full text-white flex justify-center items-center text-lg"
+            style={{ width: analysedData.populationOfTop10InPercentage + "%" }}
+          >
+            Top 10 countries contribute -
+            <b className="text-xl">
+              {analysedData.populationOfTop10InPercentage}%
+            </b>
+          </div>
+          <div
+            className="bg-gray-300 h-full flex justify-center items-center text-lg"
+            style={{
+              width: 100 - analysedData.populationOfTop10InPercentage + "%",
+            }}
+          >
+            Rest of the countries -
+            <b className="text-xl">
+              {100 - analysedData.populationOfTop10InPercentage}%
+            </b>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -64,7 +92,7 @@ function generatePlot(data: CountryPopulation[], selectedItem: string) {
       {
         show: true,
         left: "right",
-        text: "Countries Population 1960-2023",
+        text: "Population by country (1960-2023)",
       },
     ],
     tooltip: {
@@ -103,4 +131,26 @@ function generatePlot(data: CountryPopulation[], selectedItem: string) {
   };
 
   option && plot.setOption(option);
+}
+
+function populationContributors(data: CountryPopulation[]) {
+  console.log(data);
+  const populationOfTop10 = data
+    .slice(data.length - 10, data.length)
+    .reduce((acc, country) => acc + country.population, 0);
+
+  const totalPopulation = data.reduce(
+    (acc, country) => acc + country.population,
+    0
+  );
+
+  const populationOfTop10InPercentage = Math.round(
+    (populationOfTop10 / totalPopulation) * 100
+  );
+
+  return {
+    populationOfTop10,
+    totalPopulation,
+    populationOfTop10InPercentage,
+  };
 }
