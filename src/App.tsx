@@ -18,6 +18,7 @@ function App() {
   const [populationData, setPopulationData] = useState<PopulationData>({
     worldPopulation: {},
     countriesPopulation: [],
+    populationDecline: [],
   });
   const [error, setError] = useState<string | null>(null);
 
@@ -26,9 +27,13 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { worldPopulation, countriesPopulation } =
+        const { worldPopulation, countriesPopulation, populationDecline } =
           await getPopulationData();
-        setPopulationData({ worldPopulation, countriesPopulation });
+        setPopulationData({
+          worldPopulation,
+          countriesPopulation,
+          populationDecline,
+        });
       } catch (err) {
         console.error("failed to fetch population data", err);
         setError("Failed to load population data. Please try again later.");

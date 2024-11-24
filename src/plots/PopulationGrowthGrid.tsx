@@ -34,8 +34,6 @@ export default function PopulationGrowthGrid({ data }: WorldPopulation) {
     }
   }, [data]);
 
-  console.log(populationGrowthRate);
-
   return (
     <div className="p-4 pt-0 w-full">
       <div className="flex justify-between">
