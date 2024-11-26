@@ -12,19 +12,26 @@ export default function PopulationDeclineByCountry({
 }: PopulationDeclineProps) {
   useEffect(() => {
     if (data) {
-      generatePlot(data[0]);
+      for (let item of data) generatePlot(item);
     }
   }, [data]);
 
   return (
     <div className="w-full h-full p-4">
-      <div id="countries-population" className="w-full h-[80%] p-4"></div>
+      <h2 className="text-2xl font-semibold mb-10">
+        Top Countries with Declining Populations
+      </h2>
+      <div className="flex flex-wrap">
+        {data.map((item) => (
+          <div id={`${item.country}`} className="w-[450px] h-[400px] p-4"></div>
+        ))}
+      </div>
     </div>
   );
 }
 
 function generatePlot(data: PopulationDecline) {
-  let plotEl = document.getElementById("countries-population");
+  let plotEl = document.getElementById(data.country);
   let plot = echarts.init(plotEl);
 
   const yearList = data.data.map((entry) => entry.year);
@@ -68,8 +75,22 @@ function generatePlot(data: PopulationDecline) {
         data: populationList,
         type: "line",
         smooth: true,
+        showSymbol: true,
+        symbol: "circle",
+        symbolSize: 6,
+        itemStyle: {
+          color: "black",
+        },
+        lineStyle: {
+          color: "#ff2b6e",
+          width: 3,
+        },
       },
     ],
+    textStyle: {
+      color: "black",
+      fontFamily: "Merriweather",
+    },
   };
 
   option && plot.setOption(option);
