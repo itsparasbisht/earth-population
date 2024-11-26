@@ -9,6 +9,7 @@ export type CountryPopulation = {
 export type PopulationDeclineEntry = {
   year: number;
   decline: number;
+  population: number;
 };
 
 export type PopulationDecline = {
@@ -130,6 +131,7 @@ export async function getPopulationData(): Promise<PopulationData> {
             ? {
                 year: parseInt(year, 10),
                 decline: parseFloat(changeInPopulation.toFixed(2)),
+                population: currentYearPopulation,
               }
             : null;
         })

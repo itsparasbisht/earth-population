@@ -3,6 +3,7 @@ import {
   getPopulationData,
   PopulationData,
 } from "./functions/getPopulationData";
+import PopulationDeclineByCountry from "./plots/PopulationDeclineByCountry";
 import TopPopulationCountries from "./plots/TopPopulationCountries";
 import WorldPopulation from "./plots/WorldPopulation";
 
@@ -11,7 +12,8 @@ const sidebarOptions = [
     title: "Total World Population and Growth Rate (1960-2023)",
     id: "world-population",
   },
-  { title: "Population by Country", id: "by-country" },
+  { title: "Population by Country", id: "country-population" },
+  { title: "Population decline", id: "population-decline" },
 ];
 
 function App() {
@@ -65,9 +67,14 @@ function App() {
           {selectedOption === "world-population" && (
             <WorldPopulation data={populationData?.worldPopulation} />
           )}
-          {selectedOption === "by-country" && (
+          {selectedOption === "country-population" && (
             <TopPopulationCountries
               data={populationData?.countriesPopulation}
+            />
+          )}
+          {selectedOption === "population-decline" && (
+            <PopulationDeclineByCountry
+              data={populationData?.populationDecline}
             />
           )}
         </section>
