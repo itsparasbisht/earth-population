@@ -48,7 +48,7 @@ export default function PopulationGrowthGrid({ data }: WorldPopulation) {
             <HoverCardTrigger className="flex cursor-pointer bg-gray-900 p-2 gap-1 rounded-sm text-white">
               <InfoIcon /> Observations
             </HoverCardTrigger>
-            <HoverCardContent className="w-[500px] bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+            <HoverCardContent className="w-[500px] bg-gradient-to-r from-gray-900 to-gray-800 text-white">
               <div>
                 <p className="m-2">
                   - The highest growth rates occurred during the early 1960s to
