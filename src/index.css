@@ -64,10 +64,28 @@
 }
 
 @layer base {
-  * {
-    @apply border-border;
+  /* Global custom scrollbar styling */
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
   }
-  body {
-    @apply bg-background text-foreground;
+
+  *::-webkit-scrollbar-track {
+    background: #f0f0f0;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #9ca3af;
+    border-radius: 4px;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: #6b7280;
+  }
+
+  /* Firefox-specific styling */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #9ca3af #f0f0f0;
   }
 }

@@ -62,8 +62,8 @@ function App() {
           </a>
         </div>
       </nav>
-      <main className="flex w-full h-[93%]">
-        <section className="w-1/5 border-r p-1">
+      <main className="w-full h-full">
+        <section className="flex p-1 gap-1 sticky top-0 bg-white z-10">
           {sidebarOptions.map((item) => (
             <p
               key={item.id}
@@ -71,14 +71,14 @@ function App() {
                 selectedOption === item.id
                   ? "bg-gray-900 text-gray-100"
                   : "text-gray-900"
-              } text-lg p-2 rounded-md cursor-pointer mb-1 border border-gray-900`}
+              } text-lg px-2 py-1 rounded-sm cursor-pointer mb-1 border border-gray-900`}
               onClick={() => setSelectedOption(item.id)}
             >
               {item.title}
             </p>
           ))}
         </section>
-        <section className="w-4/5 overflow-scroll">
+        <section className="w-full h-full max-w-[1500px] mx-auto bg-gray-50 overflow-auto">
           {selectedOption === "total-population" && (
             <WorldPopulation data={populationData?.worldPopulation} />
           )}

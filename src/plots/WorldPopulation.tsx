@@ -19,7 +19,7 @@ export default function WorldPopulation({ data }: WorldPopulationProps) {
     <div className="w-full h-full">
       <div
         id="world-population"
-        className="w-full min-w-[600px] h-[80%] p-4"
+        className="w-full min-w-[600px] h-[85%] p-4"
       ></div>
       <div className="w-full">
         <PopulationGrowthGrid data={data} />

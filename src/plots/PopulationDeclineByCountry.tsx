@@ -21,9 +21,9 @@ export default function PopulationDeclineByCountry({
       <h2 className="text-2xl font-semibold mb-10">
         Top Countries with Declining Populations
       </h2>
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap justify-center">
         {data.map((item) => (
-          <div id={`${item.country}`} className="w-[450px] h-[400px] p-4"></div>
+          <div id={`${item.country}`} className="w-[450px] h-[450px] p-4"></div>
         ))}
       </div>
     </div>

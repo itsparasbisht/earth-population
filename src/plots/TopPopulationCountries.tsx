@@ -47,7 +47,7 @@ export default function TopPopulationCountries({
           ))}
         </SelectContent>
       </Select>
-      <div id="countries-population" className="w-full h-[80%] p-4"></div>
+      <div id="countries-population" className="w-full h-[85%] p-4"></div>
       {analysedData.populationOfTop10 > 0 && (
         <div className="w-full h-[60px] flex my-4">
           <div
