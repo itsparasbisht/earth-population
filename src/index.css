@@ -66,8 +66,8 @@
 @layer base {
   /* Global custom scrollbar styling */
   *::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
   }
 
   *::-webkit-scrollbar-track {
@@ -84,8 +84,8 @@
   }
 
   /* Firefox-specific styling */
-  * {
+  /* * {
     scrollbar-width: thin;
     scrollbar-color: #9ca3af #f0f0f0;
-  }
+  } */
 }

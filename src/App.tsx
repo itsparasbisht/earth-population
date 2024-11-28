@@ -47,7 +47,7 @@ function App() {
   }, []);
 
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-screen min-w-[800px]">
       <nav className="bg-gray-900 flex justify-between items-center p-4 text-white">
         <div className="flex items-center">
           <Globe size={30} />
