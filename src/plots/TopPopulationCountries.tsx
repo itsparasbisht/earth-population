@@ -54,24 +54,26 @@ export default function TopPopulationCountries({
       {analysedData.populationOfTop10 > 0 && (
         <div className="w-full h-[60px] flex my-4">
           <div
-            className="bg-gray-900 h-full text-white flex justify-center items-center text-lg"
+            className="bg-gray-900 h-full text-white flex justify-center items-center text-md"
             style={{ width: analysedData.populationOfTop10InPercentage + "%" }}
           >
-            Top 10 countries contribute -
-            <b className="text-xl">
-              {analysedData.populationOfTop10InPercentage}%
+            Top 10 countries contribute&nbsp;
+            <b className="text-lg">
+              {analysedData.populationOfTop10InPercentage}%&nbsp;
             </b>
+            to the total population
           </div>
           <div
-            className="bg-gray-300 h-full flex justify-center items-center text-lg"
+            className="bg-gray-300 h-full flex justify-center items-center text-md"
             style={{
               width: 100 - analysedData.populationOfTop10InPercentage + "%",
             }}
           >
-            Rest of the countries -
-            <b className="text-xl">
-              {100 - analysedData.populationOfTop10InPercentage}%
+            Remaining countries contribute&nbsp;
+            <b className="text-lg">
+              {100 - analysedData.populationOfTop10InPercentage}%&nbsp;
             </b>
+            to the total population
           </div>
         </div>
       )}
@@ -95,7 +97,7 @@ function generatePlot(data: CountryPopulation[], selectedItem: string) {
       {
         show: true,
         left: "right",
-        text: "Population by country (1960-2023)",
+        text: "Population by Country (1960-2023)",
       },
     ],
     tooltip: {
