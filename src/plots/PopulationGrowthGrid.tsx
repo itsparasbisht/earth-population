@@ -63,7 +63,10 @@ export default function PopulationGrowthGrid({ data }: WorldPopulation) {
       </div>
       <div className="flex flex-wrap gap-2 p-4">
         {populationGrowthRate.map((item) => (
-          <div className="flex flex-col items-center text-sm p-1 font-semibold border-2">
+          <div
+            key={item.year}
+            className="flex flex-col items-center text-sm p-1 font-semibold border-2"
+          >
             <div
               key={item.year}
               className="w-12 h-12"
