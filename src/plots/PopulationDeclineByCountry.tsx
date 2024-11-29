@@ -2,6 +2,12 @@ import { PopulationDecline } from "@/functions/getPopulationData";
 import { formatBigNumber } from "../utils/formatter";
 import * as echarts from "echarts";
 import { useEffect } from "react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../components/ui/popover";
+import { InfoIcon } from "lucide-react";
 
 type PopulationDeclineProps = {
   data: PopulationDecline[];
@@ -18,9 +24,46 @@ export default function PopulationDeclineByCountry({
 
   return (
     <div className="w-full h-full p-4">
-      <h2 className="text-2xl font-semibold mb-10">
-        Top Countries with Declining Populations
-      </h2>
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-semibold py-5">
+          Top Countries with Declining Populations
+        </h2>
+        <Popover>
+          <PopoverTrigger className="flex gap-2 bg-gray-900 text-white p-2 rounded-sm hover:bg-gray-700">
+            <InfoIcon /> Major Observations
+          </PopoverTrigger>
+          <PopoverContent className="w-[600px] bg-gray-800 text-white border-0">
+            <p className="m-2 flex flex-col">
+              <span className="text-lg font-semibold">
+                - Ukraine: Sharpest Population Decline
+              </span>
+              Ukraine shows the most significant population decline of -13.34%,
+              likely driven by a combination of factors such as conflict,
+              economic instability, and emigration trends. The ongoing
+              geopolitical tensions and war are significant contributors to this
+              sharp decrease.
+            </p>
+            <p className="m-2 flex flex-col">
+              <span className="text-lg font-semibold">
+                - Japan: Largest Population with Declining Growth
+              </span>
+              Japan, with 128 million people, is the most populous country in
+              the dataset. Despite its size, the country is facing a population
+              decline due to a low birth rate, an aging population, and limited
+              immigration policies.
+            </p>
+            <p className="m-2 flex flex-col">
+              <span className="text-lg font-semibold">
+                - Eastern European Trends
+              </span>
+              Countries such as Bulgaria, Latvia, and Lithuania display notable
+              population decreases, a trend common across Eastern Europe. These
+              declines are often due to high rates of emigration to Western
+              Europe, combined with low birth rates.
+            </p>
+          </PopoverContent>
+        </Popover>
+      </div>
       <div className="flex flex-wrap justify-center">
         {data.map((item) => (
           <div id={`${item.country}`} className="w-[450px] h-[450px] p-4"></div>
