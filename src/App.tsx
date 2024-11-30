@@ -47,7 +47,7 @@ function App() {
   }, []);
 
   return (
-    <div className="w-screen h-screen min-w-[800px]">
+    <div className="w-screen h-screen min-w-[800px] min-h-[600px]">
       <nav className="bg-gray-900 flex justify-between items-center p-4 text-white">
         <div className="flex items-center">
           <Globe size={30} />
@@ -62,7 +62,7 @@ function App() {
           </a>
         </div>
       </nav>
-      <main className="w-full h-full">
+      <main className="w-full h-[85%]">
         <section className="flex p-1 gap-1 sticky top-0 bg-white z-10">
           {sidebarOptions.map((item) => (
             <p

@@ -51,6 +51,7 @@ export default function TopPopulationCountries({
         id="countries-population"
         className="w-full h-[85%] max-h-[800px] p-4"
       ></div>
+      <h2 className="text-xl font-semibold">Population split</h2>
       {analysedData.populationOfTop10 > 0 && (
         <div className="w-full h-[60px] flex my-4">
           <div
@@ -59,9 +60,8 @@ export default function TopPopulationCountries({
           >
             Top 10 countries contribute&nbsp;
             <b className="text-lg">
-              {analysedData.populationOfTop10InPercentage}%&nbsp;
+              {analysedData.populationOfTop10InPercentage}%
             </b>
-            to the total population
           </div>
           <div
             className="bg-gray-300 h-full flex justify-center items-center text-md"
@@ -71,9 +71,8 @@ export default function TopPopulationCountries({
           >
             Remaining countries contribute&nbsp;
             <b className="text-lg">
-              {100 - analysedData.populationOfTop10InPercentage}%&nbsp;
+              {100 - analysedData.populationOfTop10InPercentage}%
             </b>
-            to the total population
           </div>
         </div>
       )}
