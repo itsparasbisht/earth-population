@@ -1,5 +1,6 @@
 import { Globe } from "lucide-react";
 import { useEffect, useState } from "react";
+import { getFertilityData } from "./functions/getFertilityData";
 import {
   getPopulationData,
   PopulationData,
@@ -37,6 +38,8 @@ function App() {
           countriesPopulation,
           populationDecline,
         });
+
+        await getFertilityData();
       } catch (err) {
         console.error("failed to fetch population data", err);
         setError("Failed to load population data. Please try again later.");

@@ -150,8 +150,6 @@ export async function getPopulationData(): Promise<PopulationData> {
       populationDecline = populationDecline.slice(0, 25);
     });
 
-    console.log("country", populationDecline);
-
     return { worldPopulation, countriesPopulation, populationDecline };
   } catch (error) {
     console.error("failed to fetch and process CSV", error);

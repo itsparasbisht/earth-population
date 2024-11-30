@@ -138,7 +138,6 @@ function generatePlot(data: CountryPopulation[], selectedItem: string) {
 }
 
 function populationContributors(data: CountryPopulation[]) {
-  console.log(data);
   const populationOfTop10 = data
     .slice(data.length - 10, data.length)
     .reduce((acc, country) => acc + country.population, 0);
