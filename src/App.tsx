@@ -7,6 +7,7 @@ import {
 } from "./functions/getPopulationData";
 import PopulationDeclineByCountry from "./plots/PopulationDeclineByCountry";
 import TopPopulationCountries from "./plots/TopPopulationCountries";
+import WorldFertility from "./plots/WorldFertility";
 import WorldPopulation from "./plots/WorldPopulation";
 
 const sidebarOptions = [
@@ -16,6 +17,7 @@ const sidebarOptions = [
   },
   { title: "Population by Country", id: "country-population" },
   { title: "Population Decline", id: "population-decline" },
+  { title: "Fertility Data", id: "world-fertility" },
 ];
 
 function App() {
@@ -95,6 +97,7 @@ function App() {
               data={populationData?.populationDecline}
             />
           )}
+          {selectedOption === "world-fertility" && <WorldFertility />}
         </section>
       </main>
     </div>
