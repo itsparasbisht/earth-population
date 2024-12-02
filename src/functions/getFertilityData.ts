@@ -4,6 +4,17 @@ const HEADER_INDEX = 4;
 const DATA_START_INDEX = 5;
 const YEAR_START_INDEX = 4;
 
+export type FertilityEntry = {
+  year: number;
+  fertility: number;
+};
+
+export type FertilityDecline = {
+  country: string;
+  code: string;
+  data: FertilityEntry[];
+};
+
 export async function getFertilityData() {
   try {
     const response = await fetch("/data/fertility-rate.csv");
@@ -18,7 +29,6 @@ export async function getFertilityData() {
         headers = result.data[HEADER_INDEX];
         data = result.data.slice(DATA_START_INDEX);
 
-        console.log(result);
         console.log(data);
       },
       error: (error: any) => {
@@ -26,7 +36,58 @@ export async function getFertilityData() {
         throw error;
       },
     });
+
+    if (!headers || headers.length <= YEAR_START_INDEX) {
+      throw new Error("CSV headers are malformed or missing");
+    }
+    if (!data.length) {
+      throw new Error("CSV data is empty");
+    }
+
+    // determine countries below replacement-level fertility
+    let fertilityDecline: FertilityDecline[] = [];
+
+    const years = headers.slice(YEAR_START_INDEX);
+
+    data.forEach((countryRow) => {
+      const countryName = countryRow[0];
+      const countryCode = countryRow[1];
+
+      let fertilityDeclineData = countryRow
+        .slice(YEAR_START_INDEX)
+        .map((fertility, index) => {
+          const year = years[index];
+
+          const currentYearFertility = parseInt(fertility, 10);
+
+          if (isNaN(currentYearFertility)) {
+            return null;
+          }
+
+          return currentYearFertility < 2.1
+            ? {
+                year: parseInt(year, 10),
+                fertility: parseFloat(fertility),
+              }
+            : null;
+        })
+        .filter((item): item is FertilityEntry => item !== null);
+
+      if (fertilityDeclineData.length > 0) {
+        fertilityDecline.push({
+          country: countryName,
+          code: countryCode,
+          data: fertilityDeclineData,
+        });
+      }
+
+      // sort by the number of decline entries and take the top 25
+      // populationDecline.sort((a, b) => b.data.length - a.data.length);
+      // populationDecline = populationDecline.slice(0, 25);
+    });
+    console.log(fertilityDecline);
   } catch (error) {
-    console.log(error);
+    console.error("failed to fetch and process CSV", error);
+    throw error;
   }
 }

@@ -7,13 +7,7 @@ import {
   PopoverTrigger,
 } from "../components/ui/popover";
 import { InfoIcon } from "lucide-react";
-
-type FertilityEntry = {
-  year: number;
-  fertility: number;
-};
-
-console.log(worldFertilityData);
+import { FertilityEntry } from "@/functions/getFertilityData";
 
 export default function WorldFertility() {
   useEffect(() => {
