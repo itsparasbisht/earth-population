@@ -1,10 +1,11 @@
 import { Globe } from "lucide-react";
 import { useEffect, useState } from "react";
-import { getFertilityData } from "./functions/getFertilityData";
+import { FertilityData, getFertilityData } from "./functions/getFertilityData";
 import {
   getPopulationData,
   PopulationData,
 } from "./functions/getPopulationData";
+import LowFertilityCountries from "./plots/LowFertilityCountries";
 import PopulationDeclineByCountry from "./plots/PopulationDeclineByCountry";
 import TopPopulationCountries from "./plots/TopPopulationCountries";
 import WorldFertility from "./plots/WorldFertility";
@@ -18,6 +19,7 @@ const sidebarOptions = [
   { title: "Population by Country", id: "country-population" },
   { title: "Population Decline", id: "population-decline" },
   { title: "Fertility Data", id: "world-fertility" },
+  { title: "Replacement Level Fertility", id: "replacement-fertility" },
 ];
 
 function App() {
@@ -26,6 +28,11 @@ function App() {
     countriesPopulation: [],
     populationDecline: [],
   });
+
+  const [fertilityData, setFertilityData] = useState<FertilityData>({
+    fertilityDecline: [],
+  });
+
   const [error, setError] = useState<string | null>(null);
 
   const [selectedOption, setSelectedOption] = useState(sidebarOptions[0].id);
@@ -41,7 +48,8 @@ function App() {
           populationDecline,
         });
 
-        await getFertilityData();
+        const { fertilityDecline } = await getFertilityData();
+        setFertilityData({ fertilityDecline });
       } catch (err) {
         console.error("failed to fetch population data", err);
         setError("Failed to load population data. Please try again later.");
@@ -52,7 +60,7 @@ function App() {
   }, []);
 
   return (
-    <div className="w-screen h-screen min-w-[800px] min-h-[600px]">
+    <div className="w-screen h-screen min-w-[800px] min-h-[700px]">
       <nav className="bg-gray-900 flex justify-between items-center p-4 text-white">
         <div className="flex items-center">
           <Globe size={30} />
@@ -98,6 +106,9 @@ function App() {
             />
           )}
           {selectedOption === "world-fertility" && <WorldFertility />}
+          {selectedOption === "replacement-fertility" && (
+            <LowFertilityCountries data={fertilityData?.fertilityDecline} />
+          )}
         </section>
       </main>
     </div>

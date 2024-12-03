@@ -15,7 +15,11 @@ export type FertilityDecline = {
   data: FertilityEntry[];
 };
 
-export async function getFertilityData() {
+export type FertilityData = {
+  fertilityDecline: FertilityDecline[];
+};
+
+export async function getFertilityData(): Promise<FertilityData> {
   try {
     const response = await fetch("/data/fertility-rate.csv");
     const csvText = await response.text();
@@ -28,8 +32,6 @@ export async function getFertilityData() {
       complete: (result: { data: string[][] }) => {
         headers = result.data[HEADER_INDEX];
         data = result.data.slice(DATA_START_INDEX);
-
-        console.log(data);
       },
       error: (error: any) => {
         console.error("error reading csv", error);
@@ -64,7 +66,7 @@ export async function getFertilityData() {
             return null;
           }
 
-          return currentYearFertility < 2.1
+          return currentYearFertility < 1.5
             ? {
                 year: parseInt(year, 10),
                 fertility: parseFloat(fertility),
@@ -80,12 +82,9 @@ export async function getFertilityData() {
           data: fertilityDeclineData,
         });
       }
-
-      // sort by the number of decline entries and take the top 25
-      // populationDecline.sort((a, b) => b.data.length - a.data.length);
-      // populationDecline = populationDecline.slice(0, 25);
     });
-    console.log(fertilityDecline);
+
+    return { fertilityDecline };
   } catch (error) {
     console.error("failed to fetch and process CSV", error);
     throw error;
