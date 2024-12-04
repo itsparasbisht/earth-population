@@ -1,0 +1,62 @@
+[
+  {
+    "rate": "≥ 4.0",
+    "title": "High Fertility",
+    "bg-color": "#ff4747",
+    "text-color": "white",
+    "pointers": [
+      "Rapid population growth.",
+      "Common in developing regions where access to education, healthcare, and family planning may be limited.",
+      "Strain on resources such as education, healthcare, and infrastructure.",
+      "Challenges in poverty reduction and economic development due to a large dependent population (high child-to-adult ratio)."
+    ]
+  },
+  {
+    "rate": "2.1 - 3.9",
+    "title": "Moderate Fertility",
+    "bg-color": "#ffc14f",
+    "text-color": "black",
+    "pointers": [
+      "Slower population growth.",
+      "A transitional phase in countries undergoing demographic shifts.",
+      "Potential for a demographic dividend if accompanied by economic reforms and investments in education and health.",
+      "Gradual improvements in resource availability and socio-economic development."
+    ]
+  },
+  {
+    "rate": "2.1",
+    "title": "Replacement-Level Fertility",
+    "bg-color": "#66ff66",
+    "text-color": "black",
+    "pointers": [
+      "Stable population size in the absence of migration.",
+      "This is the level required to replace the existing population in the long term, accounting for infant and child mortality.",
+      "Balanced age distribution.",
+      "Sustainability in workforce size and economic productivity."
+    ]
+  },
+  {
+    "rate": "< 2.1",
+    "title": "Low Fertility",
+    "bg-color": "#82dbff",
+    "text-color": "black",
+    "pointers": [
+      "Declining population size in the long term without migration.",
+      "Common in high-income countries with better access to education, healthcare, and contraception.",
+      "Aging population, leading to higher dependency ratios (more elderly relative to the working-age population).",
+      "Potential labor shortages and increased pressure on social welfare systems."
+    ]
+  },
+  {
+    "rate": "< 1.5",
+    "title": "Extremely Low Fertility",
+    "bg-color": "#5e1f5e",
+    "text-color": "white",
+    "pointers": [
+      "Severe population decline.",
+      "Observed in some developed countries, often linked to economic pressures, gender inequality, or lifestyle changes.",
+      "Accelerated population aging.",
+      "Risk of economic stagnation and challenges in maintaining pension systems and healthcare for the elderly."
+    ]
+  }
+]
