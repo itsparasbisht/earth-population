@@ -5,18 +5,13 @@ const DATA_START_INDEX = 5;
 const YEAR_START_INDEX = 4;
 
 export type FertilityEntry = {
-  year: number;
+  country: string;
+  code: string;
   fertility: number;
 };
 
-export type FertilityDecline = {
-  country: string;
-  code: string;
-  data: FertilityEntry[];
-};
-
 export type FertilityData = {
-  fertilityDecline: FertilityDecline[];
+  fertilityByCountry: FertilityEntry[];
 };
 
 export async function getFertilityData(): Promise<FertilityData> {
@@ -46,45 +41,24 @@ export async function getFertilityData(): Promise<FertilityData> {
       throw new Error("CSV data is empty");
     }
 
-    // determine countries below replacement-level fertility
-    let fertilityDecline: FertilityDecline[] = [];
+    // determine latest fertility rate for all countries
+    let fertilityByCountry: FertilityEntry[] = [];
 
-    const years = headers.slice(YEAR_START_INDEX);
+    data.map((item: string[]) => {
+      const countryName = item[0];
+      const code = item[1];
+      const latestFertility = parseFloat(item[item.length - 1]);
 
-    data.forEach((countryRow) => {
-      const countryName = countryRow[0];
-      const countryCode = countryRow[1];
-
-      let fertilityDeclineData = countryRow
-        .slice(YEAR_START_INDEX)
-        .map((fertility, index) => {
-          const year = years[index];
-
-          const currentYearFertility = parseInt(fertility, 10);
-
-          if (isNaN(currentYearFertility)) {
-            return null;
-          }
-
-          return currentYearFertility < 1.5
-            ? {
-                year: parseInt(year, 10),
-                fertility: parseFloat(fertility),
-              }
-            : null;
-        })
-        .filter((item): item is FertilityEntry => item !== null);
-
-      if (fertilityDeclineData.length > 0) {
-        fertilityDecline.push({
+      if (latestFertility) {
+        fertilityByCountry.push({
           country: countryName,
-          code: countryCode,
-          data: fertilityDeclineData,
+          code,
+          fertility: latestFertility,
         });
       }
     });
 
-    return { fertilityDecline };
+    return { fertilityByCountry };
   } catch (error) {
     console.error("failed to fetch and process CSV", error);
     throw error;

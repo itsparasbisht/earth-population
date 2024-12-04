@@ -5,7 +5,7 @@ import {
   getPopulationData,
   PopulationData,
 } from "./functions/getPopulationData";
-import LowFertilityCountries from "./plots/LowFertilityCountries";
+import FertilityByCountry from "./plots/FertilityByCountry";
 import PopulationDeclineByCountry from "./plots/PopulationDeclineByCountry";
 import TopPopulationCountries from "./plots/TopPopulationCountries";
 import WorldFertility from "./plots/WorldFertility";
@@ -19,7 +19,7 @@ const sidebarOptions = [
   { title: "Population by Country", id: "country-population" },
   { title: "Population Decline", id: "population-decline" },
   { title: "Fertility Data", id: "world-fertility" },
-  { title: "Replacement Level Fertility", id: "replacement-fertility" },
+  { title: "Fertility by Country", id: "fertility-by-country" },
 ];
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
   });
 
   const [fertilityData, setFertilityData] = useState<FertilityData>({
-    fertilityDecline: [],
+    fertilityByCountry: [],
   });
 
   const [error, setError] = useState<string | null>(null);
@@ -48,8 +48,8 @@ function App() {
           populationDecline,
         });
 
-        const { fertilityDecline } = await getFertilityData();
-        setFertilityData({ fertilityDecline });
+        const { fertilityByCountry } = await getFertilityData();
+        setFertilityData({ fertilityByCountry });
       } catch (err) {
         console.error("failed to fetch population data", err);
         setError("Failed to load population data. Please try again later.");
@@ -106,8 +106,8 @@ function App() {
             />
           )}
           {selectedOption === "world-fertility" && <WorldFertility />}
-          {selectedOption === "replacement-fertility" && (
-            <LowFertilityCountries data={fertilityData?.fertilityDecline} />
+          {selectedOption === "fertility-by-country" && (
+            <FertilityByCountry data={fertilityData?.fertilityByCountry} />
           )}
         </section>
       </main>
