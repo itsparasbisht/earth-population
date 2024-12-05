@@ -66,7 +66,11 @@ export default function PopulationDeclineByCountry({
       </div>
       <div className="flex flex-wrap justify-center">
         {data.map((item) => (
-          <div id={`${item.country}`} className="w-[450px] h-[450px] p-4"></div>
+          <div
+            key={item.country}
+            id={`${item.country}`}
+            className="w-[450px] h-[450px] p-4"
+          ></div>
         ))}
       </div>
     </div>

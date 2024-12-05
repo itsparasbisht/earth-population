@@ -19,6 +19,7 @@ export default function FertilityByCountry({ data }: FertilityByCountryProps) {
       <div className="flex flex-wrap p-4 gap-4">
         {fertilityLevels.map((item) => (
           <div
+            key={item.title}
             className="w-[400px] flex-col items-center justify-center p-4 rounded-lg"
             style={{
               backgroundColor: item["bg-color"],
@@ -35,7 +36,9 @@ export default function FertilityByCountry({ data }: FertilityByCountryProps) {
             ></div>
             <ul className="px-6 py-3 list-disc">
               {item.pointers.map((point) => (
-                <li className="mb-1">{point}</li>
+                <li key={point} className="mb-1">
+                  {point}
+                </li>
               ))}
             </ul>
           </div>

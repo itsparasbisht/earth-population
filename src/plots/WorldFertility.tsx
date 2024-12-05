@@ -62,7 +62,9 @@ export default function WorldFertility() {
   );
 }
 
-function generatePlot(worldFertilityData: FertilityEntry[]) {
+function generatePlot(
+  worldFertilityData: { year: number; fertility: number }[]
+) {
   let plotEl = document.getElementById("world-fertility");
   let plot = echarts.init(plotEl);
 
