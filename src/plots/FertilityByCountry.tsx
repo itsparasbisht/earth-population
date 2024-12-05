@@ -1,18 +1,38 @@
 import { FertilityEntry } from "@/functions/getFertilityData";
 import * as echarts from "echarts";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import fertilityLevels from "../../data/fertility-levels.json";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
 
 type FertilityByCountryProps = {
   data: FertilityEntry[];
 };
 
+const fertilityLevelsOption = [
+  "All",
+  "High Fertility",
+  "Moderate Fertility",
+  "Replacement-Level Fertility",
+  "Low Fertility",
+  "Extremely Low Fertility",
+];
+
 export default function FertilityByCountry({ data }: FertilityByCountryProps) {
+  const [selectedFertilityLevel, setSelectedFertilityLevel] = useState(
+    fertilityLevelsOption[0]
+  );
+
   useEffect(() => {
     if (data) {
-      generatePlot(data);
+      generatePlot(data, selectedFertilityLevel);
     }
-  }, []);
+  }, [data, selectedFertilityLevel]);
 
   return (
     <div className="w-full h-full">
@@ -44,31 +64,77 @@ export default function FertilityByCountry({ data }: FertilityByCountryProps) {
           </div>
         ))}
       </div>
+      <div className="flex justify-end px-4">
+        <Select
+          onValueChange={setSelectedFertilityLevel}
+          value={selectedFertilityLevel}
+        >
+          <SelectTrigger className="w-[250px]">
+            <SelectValue
+              placeholder={fertilityLevelsOption[0]}
+              defaultValue={fertilityLevelsOption[0]}
+            />
+          </SelectTrigger>
+          <SelectContent>
+            {fertilityLevelsOption.map((item) => (
+              <SelectItem key={item} value={item}>
+                {item}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
       <div
         id="fertility-by-country"
-        className="w-full min-w-[600px] h-[85%] max-h-[800px] p-4"
+        className="w-full min-w-[600px] h-[85%] max-h-[800px] px-4"
       ></div>
     </div>
   );
 }
 
-function generatePlot(data: FertilityEntry[]) {
+function generatePlot(data: FertilityEntry[], selectedFertilityLevel: string) {
   let plotEl = document.getElementById("fertility-by-country");
   let plot = echarts.init(plotEl);
 
   const countryList: string[] = [];
   const fertilityList: number[] = [];
+  const symbolSizeList: number[] = [];
+  const colorList: string[] = [];
 
   for (let entry of data) {
     countryList.push(entry.country);
     fertilityList.push(entry.fertility);
+
+    // determine if the entry is part of the selected fertility level
+    const isHighlighted =
+      (selectedFertilityLevel === "High Fertility" && entry.fertility >= 4.0) ||
+      (selectedFertilityLevel === "Moderate Fertility" &&
+        entry.fertility > 2.1 &&
+        entry.fertility <= 3.9) ||
+      (selectedFertilityLevel === "Replacement-Level Fertility" &&
+        entry.fertility >= 2.0 &&
+        entry.fertility <= 2.1) ||
+      (selectedFertilityLevel === "Low Fertility" &&
+        entry.fertility < 2.1 &&
+        entry.fertility >= 1.5) ||
+      (selectedFertilityLevel === "Extremely Low Fertility" &&
+        entry.fertility < 1.5);
+
+    // assign styles based on the highlighted status
+    if (selectedFertilityLevel === "All" || isHighlighted) {
+      colorList.push(isHighlighted ? "#ff2b6e" : "#212121");
+      symbolSizeList.push(isHighlighted ? 14 : 7);
+    } else {
+      colorList.push("#212121");
+      symbolSizeList.push(7);
+    }
   }
 
   let option = {
     title: [
       {
         show: true,
-        left: "right",
+        left: "left",
         text: "Fertility Rate by Country",
       },
     ],
@@ -86,16 +152,14 @@ function generatePlot(data: FertilityEntry[]) {
     yAxis: [{}],
     series: [
       {
-        type: "line",
+        type: "scatter",
         symbol: "circle",
         showSymbol: true,
-        symbolSize: 5,
-        showAllSymbol: true,
-        data: fertilityList,
-        lineStyle: {
-          color: "black",
-          width: 0,
-        },
+        data: fertilityList.map((value, index) => ({
+          value,
+          itemStyle: { color: colorList[index] },
+          symbolSize: symbolSizeList[index],
+        })),
       },
     ],
     textStyle: {
