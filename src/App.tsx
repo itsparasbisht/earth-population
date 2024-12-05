@@ -18,7 +18,7 @@ const sidebarOptions = [
   },
   { title: "Population by Country", id: "country-population" },
   { title: "Population Decline", id: "population-decline" },
-  { title: "Fertility Data", id: "world-fertility" },
+  { title: "World Fertility Rate", id: "world-fertility" },
   { title: "Fertility by Country", id: "fertility-by-country" },
 ];
 
@@ -60,7 +60,7 @@ function App() {
   }, []);
 
   return (
-    <div className="w-screen h-screen min-w-[800px] min-h-[700px]">
+    <div className="w-screen h-screen min-w-[900px] min-h-[700px]">
       <nav className="bg-gray-900 flex justify-between items-center p-4 text-white">
         <div className="flex items-center">
           <Globe size={30} />

@@ -36,7 +36,7 @@ export default function TopPopulationCountries({
   return (
     <div className="w-full h-full p-4">
       <Select onValueChange={setSelectedItem} value={selectedItem}>
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-[180px] border-2">
           <SelectValue placeholder="Top 10" defaultValue="Top 10" />
         </SelectTrigger>
         <SelectContent>

@@ -7,7 +7,6 @@ import {
   PopoverTrigger,
 } from "../components/ui/popover";
 import { InfoIcon } from "lucide-react";
-import { FertilityEntry } from "@/functions/getFertilityData";
 
 export default function WorldFertility() {
   useEffect(() => {
@@ -16,15 +15,17 @@ export default function WorldFertility() {
 
   return (
     <div className="w-full h-full">
-      <div className="flex items-center p-2">
-        <p>
+      <div className="flex items-center p-4">
+        <div className="w-full">
           <b className="text-2xl">Fertility, </b>
-          the average number of children born to a woman during her reproductive
-          years (typically ages 15–49). Fertility is a key indicator used to
-          understand population growth and demographic trends, influencing
-          factors such as economic development, health policies, and resource
-          planning.
-        </p>
+          <p className="max-w-[700px]">
+            the average number of children born to a woman during her
+            reproductive years (typically ages 15–49). Fertility is a key
+            indicator used to understand population growth and demographic
+            trends, influencing factors such as economic development, health
+            policies, and resource planning.
+          </p>
+        </div>
         <div>
           <Popover>
             <PopoverTrigger className="flex gap-2 bg-gray-900 text-white p-2 rounded-sm hover:bg-gray-700">

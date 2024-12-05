@@ -63,13 +63,19 @@ export default function FertilityByCountry({ data }: FertilityByCountryProps) {
             </ul>
           </div>
         ))}
+        <div className="w-[400px] p-10 rounded-lg bg-gray-900 text-white">
+          <p className="text-3xl">
+            Explore the fertility levels of countries by selecting an option
+            from the dropdown below.
+          </p>
+        </div>
       </div>
       <div className="flex justify-end px-4">
         <Select
           onValueChange={setSelectedFertilityLevel}
           value={selectedFertilityLevel}
         >
-          <SelectTrigger className="w-[250px]">
+          <SelectTrigger className="w-[250px] border-2 relative top-7 z-50">
             <SelectValue
               placeholder={fertilityLevelsOption[0]}
               defaultValue={fertilityLevelsOption[0]}
@@ -136,6 +142,9 @@ function generatePlot(data: FertilityEntry[], selectedFertilityLevel: string) {
         show: true,
         left: "left",
         text: "Fertility Rate by Country",
+        textStyle: {
+          fontSize: 24,
+        },
       },
     ],
     grid: {
