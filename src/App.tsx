@@ -67,7 +67,7 @@ function App() {
           <h1 className="text-2xl ml-2">Earth Population</h1>
         </div>
         <div className="italic underline flex gap-2">
-          <a href="https://www.worldbank.org/ext/en/home" target="_blank">
+          <a href="https://databank.worldbank.org" target="_blank">
             Data source
           </a>
           <a href="https://www.linkedin.com/in/paras-bisht" target="_blank">
