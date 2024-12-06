@@ -33,8 +33,6 @@ function App() {
     fertilityByCountry: [],
   });
 
-  const [error, setError] = useState<string | null>(null);
-
   const [selectedOption, setSelectedOption] = useState(sidebarOptions[0].id);
 
   useEffect(() => {
@@ -52,7 +50,6 @@ function App() {
         setFertilityData({ fertilityByCountry });
       } catch (err) {
         console.error("failed to fetch population data", err);
-        setError("Failed to load population data. Please try again later.");
       }
     };
 
