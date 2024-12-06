@@ -21,6 +21,7 @@
     "skipLibCheck": true, // Skip type checking of declaration files
     "allowSyntheticDefaultImports": true, // Allow default imports from modules with no default export
 
+    "composite": true,
     /* Type checking */
     "strict": true, // Enable all strict type-checking options
     "noUnusedLocals": true, // Report errors on unused locals
