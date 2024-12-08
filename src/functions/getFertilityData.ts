@@ -16,7 +16,7 @@ export type FertilityData = {
 
 export async function getFertilityData(): Promise<FertilityData> {
   try {
-    const response = await fetch("src/assets/data/fertility-rate.csv");
+    const response = await fetch("/data/fertility-rate.csv");
     const csvText = await response.text();
 
     let headers: string[] = [];
