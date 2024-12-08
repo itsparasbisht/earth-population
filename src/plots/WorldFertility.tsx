@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import worldFertilityData from "../../data/world-fertility.json";
+import worldFertilityData from "../assets/data/world-fertility.json";
 import * as echarts from "echarts";
 import {
   Popover,

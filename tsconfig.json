@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     /* Language options */
-    "target": "ES2020", // Target modern JavaScript features
+    "target": "ESNext", // Target modern JavaScript features
     "useDefineForClassFields": true, // Use ECMAScript standard for class fields
 
     /* Library inclusion */
@@ -37,6 +37,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"], // Include all files in the src directory
+  "include": ["src", "src/assets/data/*.json"], // Include all files in the src directory
   "references": [{ "path": "./tsconfig.node.json" }] // Reference another tsconfig file
 }

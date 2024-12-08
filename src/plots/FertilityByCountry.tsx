@@ -1,7 +1,7 @@
 import { FertilityEntry } from "@/functions/getFertilityData";
 import * as echarts from "echarts";
 import { useEffect, useState } from "react";
-import fertilityLevels from "../../data/fertility-levels.json";
+import fertilityLevels from "../assets/data/fertility-levels.json";
 import {
   Select,
   SelectContent,

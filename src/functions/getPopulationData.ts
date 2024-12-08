@@ -30,7 +30,7 @@ const YEAR_START_INDEX = 4;
 
 export async function getPopulationData(): Promise<PopulationData> {
   try {
-    const response = await fetch("/data/total-population.csv");
+    const response = await fetch("src/assets/data/total-population.csv");
     const csvText = await response.text();
 
     let headers: string[] = [];
