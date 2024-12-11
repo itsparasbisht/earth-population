@@ -151,7 +151,7 @@ function generatePlot(data: FertilityEntry[], selectedFertilityLevel: string) {
       top: 60,
     },
     tooltip: {
-      trigger: "axis",
+      trigger: "item",
     },
     xAxis: [
       {
