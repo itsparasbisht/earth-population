@@ -1,73 +1,75 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import worldFertilityData from "../assets/data/world-fertility.json";
 import * as echarts from "echarts";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../components/ui/popover";
-import { InfoIcon } from "lucide-react";
 
 export default function WorldFertility() {
+  const chartRef = useRef<echarts.ECharts>();
+
   useEffect(() => {
-    generatePlot(worldFertilityData);
+    const chart = generatePlot(worldFertilityData);
+    chartRef.current = chart;
+
+    const handleResize = () => {
+      chart.resize();
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      chart.dispose();
+    };
   }, []);
 
   return (
-    <div className="w-full h-full">
-      <div className="flex items-center p-4">
-        <div className="w-full">
-          <b className="text-2xl">Fertility, </b>
-          <p className="max-w-[700px]">
-            the average number of children born to a woman during her
-            reproductive years (typically ages 15–49). Fertility is a key
-            indicator used to understand population growth and demographic
-            trends, influencing factors such as economic development, health
-            policies, and resource planning.
-          </p>
-        </div>
-        <div>
-          <Popover>
-            <PopoverTrigger className="flex gap-2 bg-gray-900 text-white p-2 rounded-sm hover:bg-gray-700">
-              <InfoIcon />
-              Observations
-            </PopoverTrigger>
-            <PopoverContent className="w-[600px] bg-gray-800 text-white border-0">
-              <p className="m-2">
-                - From 1960 to 2022, the fertility rate shows a significant
-                overall decline from 4.70 in 1960 to 2.26 in 2022, indicating a
-                shift towards smaller family sizes globally.
-              </p>
-              <p className="m-2">
-                - Fertility peaked at 5.32 in 1963 before gradually starting to
-                decline.
-              </p>
-              <p className="m-2">
-                - By 2022, the global fertility rate (2.26) is approaching the
-                replacement-level fertility rate of 2.1, which is the level
-                needed for a stable population without immigration.
-              </p>
-              <p className="m-2">
-                - This trend suggests population growth may slow or decline in
-                many regions.
-              </p>
-            </PopoverContent>
-          </Popover>
-        </div>
+    <div className="space-y-8">
+      <div className="font-serif border-l-2 border-accent pl-4 mb-6">
+        <p className="text-lg leading-relaxed text-muted-foreground">
+          Fertility represents the average number of children born to a woman
+          during her reproductive years (typically ages 15–49). This key
+          indicator helps us understand population growth and demographic
+          trends, influencing economic development, health policies, and
+          resource planning.
+        </p>
       </div>
-      <div
-        id="world-fertility"
-        className="w-full min-w-[600px] h-[85%] max-h-[800px] p-4"
-      ></div>
+
+      <div className="h-[500px]">
+        <div id="world-fertility" className="w-full h-full"></div>
+      </div>
+
+      <div className="border-l-2 border-accent pl-4">
+        <h4 className="font-display text-xl mb-3">Key Findings</h4>
+        <ul className="font-serif text-muted-foreground space-y-3">
+          <li>
+            From 1960 to 2022, the global fertility rate declined dramatically
+            from 4.70 to 2.26, reflecting a worldwide shift towards smaller
+            families.
+          </li>
+          <li>
+            The peak fertility rate of 5.32 was recorded in 1963, marking the
+            beginning of a steady decline.
+          </li>
+          <li>
+            By 2022, the rate (2.26) approached the replacement level of 2.1,
+            suggesting potential population stabilization.
+          </li>
+          <li>
+            This trend indicates a future slowdown in population growth across
+            many regions.
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }
 
 function generatePlot(
   worldFertilityData: { year: number; fertility: number }[]
-) {
-  let plotEl = document.getElementById("world-fertility");
-  let plot = echarts.init(plotEl);
+): echarts.ECharts {
+  const plotEl = document.getElementById("world-fertility");
+  if (!plotEl) throw new Error("Plot element not found");
+
+  const plot = echarts.init(plotEl);
 
   const yearList: number[] = [];
   const fertilityList: number[] = [];
@@ -80,22 +82,46 @@ function generatePlot(
   let option = {
     title: [
       {
-        show: true,
-        left: "right",
-        text: "World Fertility Data (1960-2022)",
+        show: false,
       },
     ],
     grid: {
-      top: 60,
+      top: 40,
+      right: 40,
+      bottom: 60,
+      left: 60,
     },
     tooltip: {
       trigger: "axis",
       valueFormatter: (value: number) =>
         `${parseFloat(value.toString()).toFixed(2)}`,
+      backgroundColor: "white",
+      borderColor: "#e2e8f0",
+      textStyle: {
+        color: "#334155",
+        fontFamily: "Lora",
+      },
     },
     xAxis: [
       {
         data: yearList,
+        axisLabel: {
+          fontFamily: "Lora",
+          fontSize: 12,
+          color: "#64748b",
+        },
+        axisLine: {
+          lineStyle: {
+            color: "#e2e8f0",
+          },
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            color: "#f1f5f9",
+            type: "dashed",
+          },
+        },
       },
     ],
     yAxis: [{}],
@@ -119,4 +145,5 @@ function generatePlot(
   };
 
   option && plot.setOption(option);
+  return plot;
 }

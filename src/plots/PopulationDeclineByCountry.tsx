@@ -1,13 +1,7 @@
 import { PopulationDecline } from "@/functions/getPopulationData";
 import { formatBigNumber } from "../utils/formatter";
 import * as echarts from "echarts";
-import { useEffect } from "react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../components/ui/popover";
-import { InfoIcon } from "lucide-react";
+import { useEffect, useRef } from "react";
 
 type PopulationDeclineProps = {
   data: PopulationDecline[];
@@ -23,55 +17,55 @@ export default function PopulationDeclineByCountry({
   }, [data]);
 
   return (
-    <div className="w-full h-full p-4">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-semibold py-5">
-          Top Countries with Declining Populations
-        </h2>
-        <Popover>
-          <PopoverTrigger className="flex gap-2 bg-gray-900 text-white p-2 rounded-sm hover:bg-gray-700">
-            <InfoIcon /> Major Observations
-          </PopoverTrigger>
-          <PopoverContent className="w-[600px] bg-gray-800 text-white border-0">
-            <p className="m-2 flex flex-col">
-              <span className="text-lg font-semibold">
-                - Ukraine: Sharpest Population Decline
-              </span>
-              Ukraine shows the most significant population decline of -13.34%,
-              likely driven by a combination of factors such as conflict,
-              economic instability, and emigration trends. The ongoing
-              geopolitical tensions and war are significant contributors to this
-              sharp decrease.
-            </p>
-            <p className="m-2 flex flex-col">
-              <span className="text-lg font-semibold">
-                - Japan: Largest Population with Declining Growth
-              </span>
-              Japan, with 128 million people, is the most populous country in
-              the dataset. Despite its size, the country is facing a population
-              decline due to a low birth rate, an aging population, and limited
-              immigration policies.
-            </p>
-            <p className="m-2 flex flex-col">
-              <span className="text-lg font-semibold">
-                - Eastern European Trends
-              </span>
-              Countries such as Bulgaria, Latvia, and Lithuania display notable
-              population decreases, a trend common across Eastern Europe. These
-              declines are often due to high rates of emigration to Western
-              Europe, combined with low birth rates.
-            </p>
-          </PopoverContent>
-        </Popover>
+    <div className="mt-6 space-y-8">
+      {/* Analysis Section */}
+      <div className="font-lora text-[15px] leading-relaxed">
+        <div className="p-6 bg-[#FFFDF8] border-l-2 border-accent">
+          <h3 className="font-abril text-xl mb-4 pb-2 border-b border-gray-300">
+            Key Insights
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <p>
+                <strong className="text-red-700">Ukraine's Crisis:</strong>{" "}
+                Facing the sharpest decline of -13.34%, Ukraine's population
+                decrease stems from ongoing conflict, economic challenges, and
+                forced displacement.
+              </p>
+            </div>
+            <div>
+              <p>
+                <strong className="text-red-700">Japan's Challenge:</strong>{" "}
+                With 128 million people, Japan represents the largest population
+                battling decline, primarily due to aging demographics and low
+                birth rates.
+              </p>
+            </div>
+            <div>
+              <p>
+                <strong className="text-red-700">
+                  Eastern European Pattern:
+                </strong>{" "}
+                A consistent trend emerges across Eastern Europe, with Bulgaria,
+                Latvia, and Lithuania showing significant decreases, driven by
+                westward migration and demographic shifts.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="flex flex-wrap justify-center">
-        {data.map((item) => (
-          <div
-            key={item.country}
-            id={`${item.country}`}
-            className="w-[450px] h-[450px] p-4"
-          ></div>
-        ))}
+
+      {/* Charts Grid */}
+      <div className="w-full">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
+          {data.map((item) => (
+            <div
+              key={item.country}
+              id={`${item.country}`}
+              className="h-[300px] bg-white"
+            ></div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -88,32 +82,88 @@ function generatePlot(data: PopulationDecline) {
   let option = {
     title: {
       show: true,
-      left: "right",
       text: data.country,
+      left: "center",
+      top: 10,
+      textStyle: {
+        fontSize: 16,
+        fontFamily: "Abril Fatface",
+        fontWeight: "normal",
+        color: "#1a1a1a",
+      },
+    },
+    grid: {
+      top: 50,
+      left: 45,
+      right: 20,
+      bottom: 30,
+      containLabel: true,
     },
     tooltip: {
       trigger: "axis",
+      backgroundColor: "rgba(255, 255, 255, 0.9)",
+      borderColor: "#ccc",
+      borderWidth: 1,
+      textStyle: {
+        color: "#333",
+        fontFamily: "Lora",
+      },
       formatter: (params: any) => {
         const dataIndex = params[0].dataIndex;
         const year = yearList[dataIndex];
         const population = populationList[dataIndex];
         const decline = declineList[dataIndex];
         return `
-          <b>Year:</b> ${year}<br/>
-          <b>Population:</b> ${formatBigNumber(population, 0)}<br/>
-          <b>Decline:</b> ${decline.toFixed(2)}%
+          <div style="font-family: Lora;">
+            <span style="color: #666;">Year:</span> ${year}<br/>
+            <span style="color: #666;">Population:</span> ${formatBigNumber(
+              population,
+              0
+            )}<br/>
+            <span style="color: #ff2b6e;">Decline:</span> ${decline.toFixed(2)}%
+          </div>
         `;
       },
     },
     xAxis: {
       type: "category",
       data: yearList,
+      axisLabel: {
+        fontSize: 11,
+        fontFamily: "Lora",
+        interval: 2,
+        color: "#666",
+      },
+      axisLine: {
+        lineStyle: {
+          color: "#ddd",
+        },
+      },
+      splitLine: {
+        show: true,
+        lineStyle: {
+          color: "#f5f5f5",
+        },
+      },
     },
     yAxis: {
       type: "value",
       axisLabel: {
         formatter: function (value: number) {
           return formatBigNumber(value, 0, "short");
+        },
+        fontSize: 11,
+        fontFamily: "Lora",
+        color: "#666",
+      },
+      axisLine: {
+        lineStyle: {
+          color: "#ddd",
+        },
+      },
+      splitLine: {
+        lineStyle: {
+          color: "#f5f5f5",
         },
       },
     },
@@ -123,20 +173,44 @@ function generatePlot(data: PopulationDecline) {
         type: "line",
         smooth: true,
         showSymbol: true,
-        symbol: "circle",
-        symbolSize: 6,
+        symbolSize: 8,
         itemStyle: {
-          color: "black",
+          color: "#fff",
+          borderWidth: 2,
+          borderColor: "#ff2b6e",
+          shadowBlur: 8,
+          shadowColor: "rgba(255, 43, 110, 0.3)",
         },
         lineStyle: {
           color: "#ff2b6e",
-          width: 3,
+          width: 2,
+          shadowColor: "rgba(255, 43, 110, 0.2)",
+          shadowBlur: 10,
+        },
+        areaStyle: {
+          color: {
+            type: "linear",
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [
+              {
+                offset: 0,
+                color: "rgba(255, 43, 110, 0.15)",
+              },
+              {
+                offset: 1,
+                color: "rgba(255, 43, 110, 0.01)",
+              },
+            ],
+          },
         },
       },
     ],
     textStyle: {
       color: "black",
-      fontFamily: "Merriweather",
+      fontFamily: "Lora",
     },
   };
 
