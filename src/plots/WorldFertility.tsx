@@ -82,66 +82,170 @@ function generatePlot(
   let option = {
     title: [
       {
-        show: false,
+        text: "Global Fertility Rate Trends",
+        subtext: "Tracking the average number of children per woman (1960-2022)",
+        left: "center",
+        top: 10,
+        textStyle: {
+          fontSize: 24,
+          fontFamily: "Abril Fatface",
+          fontWeight: "normal",
+          color: "#333",
+        },
+        subtextStyle: {
+          fontSize: 14,
+          fontFamily: "Lora",
+          color: "#666",
+        },
       },
     ],
     grid: {
-      top: 40,
-      right: 40,
+      top: 100,
+      right: 150,
       bottom: 60,
       left: 60,
+      show: true,
+      borderColor: "#f0f0f0",
+      borderWidth: 1,
     },
     tooltip: {
       trigger: "axis",
-      valueFormatter: (value: number) =>
-        `${parseFloat(value.toString()).toFixed(2)}`,
-      backgroundColor: "white",
-      borderColor: "#e2e8f0",
+      backgroundColor: "rgba(255, 255, 255, 0.95)",
+      borderColor: "#bde0fe",
+      borderWidth: 2,
       textStyle: {
-        color: "#334155",
+        color: "#333",
         fontFamily: "Lora",
+        fontSize: 13,
+      },
+      formatter: (params: any) => {
+        const data = params[0];
+        const year = data.name;
+        const fertility = parseFloat(data.value).toFixed(2);
+        let icon = "";
+        if (parseFloat(fertility) > 2.1) {
+          icon = "<span style=\"display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:#e63946;\"></span>";
+        } else if (parseFloat(fertility) < 2.1) {
+          icon = "<span style=\"display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:#457b9d;\"></span>";
+        } else {
+          icon = "<span style=\"display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:#2a9d8f;\"></span>";
+        }
+        return `
+          <div style=\"font-family: Lora; padding: 5px;">
+            ${icon} <span style=\"color: #666;">Year:</span> <strong>${year}</strong><br/>
+            <span style=\"color: #219ebc;">Fertility Rate:</span> <strong>${fertility}</strong>
+          </div>
+        `;
       },
     },
     xAxis: [
       {
         data: yearList,
+        type: "category",
+        boundaryGap: false,
         axisLabel: {
           fontFamily: "Lora",
           fontSize: 12,
-          color: "#64748b",
+          color: "#555",
         },
         axisLine: {
           lineStyle: {
-            color: "#e2e8f0",
+            color: "#ddd",
           },
         },
         splitLine: {
           show: true,
           lineStyle: {
-            color: "#f1f5f9",
-            type: "dashed",
+            color: "#f0f0f0",
+            type: "solid",
           },
         },
       },
     ],
-    yAxis: [{}],
-    series: [
+    yAxis: [
       {
-        type: "line",
-        showSymbol: true,
-        symbolSize: 6,
-        data: fertilityList,
-        lineStyle: {
-          color: "black",
-          width: 3,
+        type: "value",
+        name: "Fertility Rate",
+        nameTextStyle: {
+          fontFamily: "Lora",
+          fontSize: 14,
+          color: "#555",
+        },
+        axisLabel: {
+          fontFamily: "Lora",
+          fontSize: 12,
+          color: "#555",
+          formatter: "{value}",
+        },
+        axisLine: {
+          lineStyle: {
+            color: "#ddd",
+          },
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            color: "#f0f0f0",
+            type: "solid",
+          },
         },
       },
     ],
+    series: [
+      {
+        type: "line",
+        showSymbol: false,
+        symbolSize: 8,
+        symbol: "circle",
+        data: fertilityList,
+        lineStyle: {
+          width: 4,
+          color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+            { offset: 0, color: "#a2d2ff" },
+            { offset: 0.5, color: "#8ecae6" },
+            { offset: 1, color: "#219ebc" },
+          ]),
+          shadowColor: "rgba(0, 0, 0, 0.3)",
+          shadowBlur: 10,
+          shadowOffsetY: 5,
+        },
+        itemStyle: {
+          color: "#219ebc",
+          borderColor: "#fff",
+          borderWidth: 2,
+        },
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            { offset: 0, color: "rgba(142, 202, 230, 0.5)" },
+            { offset: 1, color: "rgba(33, 158, 188, 0)" },
+          ]),
+        },
+        markLine: {
+          silent: true,
+          lineStyle: {
+            type: "dashed",
+            color: "#e63946",
+            width: 2,
+          },
+          label: {
+            formatter: "Replacement Level (2.1)",
+            position: "end",
+            distance: 20, // Positive distance to push it outside
+            fontFamily: "Lora",
+            fontSize: 12,
+            color: "#e63946",
+          },
+          data: [{ yAxis: 2.1 }],
+        },
+        animationDuration: 2000,
+        animationEasing: "elasticOut",
+      },
+    ],
     textStyle: {
-      color: "black",
-      fontFamily: "Merriweather",
+      color: "#333",
+      fontFamily: "Lora",
     },
-    color: "#ff2b6e",
+    color: "#219ebc",
   };
 
   option && plot.setOption(option);

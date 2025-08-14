@@ -139,11 +139,11 @@ function generatePlot(data: { [key: string]: number } | null): echarts.ECharts {
       {
         type: "line",
         showSymbol: true,
-        symbolSize: 6,
+        symbolSize: 3,
         data: valueList,
         lineStyle: {
           color: "#ef4444",
-          width: 2,
+          width: 4,
         },
         symbol: "circle",
         itemStyle: {
