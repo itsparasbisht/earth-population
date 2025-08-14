@@ -9,6 +9,7 @@ import {
 } from "./functions/getPopulationData";
 import FertilityByCountry from "./plots/FertilityByCountry";
 import PopulationDeclineByCountry from "./plots/PopulationDeclineByCountry";
+import PopulationGrowthGrid from "./plots/PopulationGrowthGrid";
 import TopPopulationCountries from "./plots/TopPopulationCountries";
 import WorldFertility from "./plots/WorldFertility";
 import WorldPopulation from "./plots/WorldPopulation";
@@ -116,6 +117,16 @@ function App() {
               </div>
               <div className="chart-section">
                 <WorldPopulation data={populationData?.worldPopulation} />
+              </div>
+            </section>
+
+            <section className="mb-16 border-column pl-4">
+              <h3 className="article-heading">Population Growth Rate</h3>
+              <p className="article-subheading">
+                An interactive chart of population growth trends.
+              </p>
+              <div className="chart-section">
+                <PopulationGrowthGrid data={populationData?.worldPopulation} />
               </div>
             </section>
 

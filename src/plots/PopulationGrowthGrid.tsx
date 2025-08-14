@@ -1,10 +1,5 @@
-import { useEffect, useState } from "react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../components/ui/popover";
-import { InfoIcon } from "lucide-react";
+import * as echarts from "echarts";
+import { useEffect, useRef, useState } from "react";
 
 type PopulationGrowth = {
   year: number;
@@ -17,6 +12,7 @@ type WorldPopulation = {
 };
 
 export default function PopulationGrowthGrid({ data }: WorldPopulation) {
+  const chartRef = useRef<echarts.ECharts>();
   const [populationGrowthRate, setPopulationGrowthRate] = useState<
     PopulationGrowth[]
   >([]);
@@ -28,58 +24,153 @@ export default function PopulationGrowthGrid({ data }: WorldPopulation) {
     }
   }, [data]);
 
+  useEffect(() => {
+    if (populationGrowthRate.length > 0) {
+      const chart = generatePlot(populationGrowthRate);
+      chartRef.current = chart;
+
+      const handleResize = () => {
+        chart.resize();
+      };
+      window.addEventListener("resize", handleResize);
+
+      return () => {
+        window.removeEventListener("resize", handleResize);
+        chart.dispose();
+      };
+    }
+  }, [populationGrowthRate]);
+
   return (
-    <div className="p-4 pt-0 w-full">
-      <div className="flex justify-between">
-        <h2 className="text-xl font-semibold">
-          Population growth rate over the years
-        </h2>
-        <div>
-          <Popover>
-            <PopoverTrigger className="flex gap-2 bg-gray-900 text-white p-2 rounded-sm hover:bg-gray-700">
-              <InfoIcon /> Growth Rate Observations
-            </PopoverTrigger>
-            <PopoverContent className="w-[400px] bg-gray-800 text-white border-0">
-              <p className="m-2">
-                - The highest growth rates occurred during the early 1960s to
-                1970, peaking at 2.13% in 1963.
-              </p>
-              <p className="m-2">
-                - After the 1960s, the population growth rate shows a consistent
-                decline, from 2.13% in 1963 to 0.92% in 2023.
-              </p>
-              <p className="m-2">
-                - In the early 21st century (2000–2023), growth rates stabilized
-                around 1.2%, followed by a sharper decline post-2015.
-              </p>
-              <p className="m-2">
-                - The growth rate fell below 1% for the first time in 2021
-                (0.87%).
-              </p>
-            </PopoverContent>
-          </Popover>
+    <div className="space-y-8">
+      <div className="h-[400px]">
+        <div id="population-growth-chart" className="w-full h-full"></div>
+      </div>
+
+      <div className="flex justify-center items-center gap-x-6 gap-y-2 flex-wrap text-sm text-muted-foreground">
+        <div className="flex items-center gap-2">
+          <div
+            className="w-4 h-4 rounded-sm"
+            style={{ backgroundColor: "#b7e34f" }}
+          ></div>
+          <span>Low Growth (&lt;1%)</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div
+            className="w-4 h-4 rounded-sm"
+            style={{ backgroundColor: "#e3c14f" }}
+          ></div>
+          <span>Moderate Growth (1-2%)</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div
+            className="w-4 h-4 rounded-sm"
+            style={{ backgroundColor: "#e34f4f" }}
+          ></div>
+          <span>High Growth (&gt;2%)</span>
         </div>
       </div>
-      <div className="flex flex-wrap gap-2 p-4">
-        {populationGrowthRate.map((item) => (
-          <div
-            key={item.year}
-            className="flex flex-col items-center text-sm p-1 font-semibold border-2"
-          >
-            <div
-              key={item.year}
-              className="w-12 h-12"
-              style={{
-                backgroundColor: getColorByGrowthRate(item.growth_rate),
-              }}
-            ></div>
-            <span>{item.year}</span>
-            <span>{item.growth_rate ? item.growth_rate + "%" : "-"}</span>
-          </div>
-        ))}
+
+      <div className="border-l-2 border-accent pl-4">
+        <h4 className="font-display text-xl mb-3">Key Observations</h4>
+        <ul className="font-serif text-muted-foreground space-y-3">
+          <li>
+            The highest growth rates occurred during the early 1960s to 1970,
+            peaking at 2.13% in 1963.
+          </li>
+          <li>
+            After the 1960s, the population growth rate shows a consistent
+            decline, from 2.13% in 1963 to 0.92% in 2023.
+          </li>
+          <li>
+            In the early 21st century (2000–2023), growth rates stabilized
+            around 1.2%, followed by a sharper decline post-2015.
+          </li>
+          <li>
+            The growth rate fell below 1% for the first time in 2021 (0.87%).
+          </li>
+        </ul>
       </div>
     </div>
   );
+}
+
+function generatePlot(data: PopulationGrowth[]): echarts.ECharts {
+  const plotEl = document.getElementById("population-growth-chart");
+  if (!plotEl) throw new Error("Plot element not found");
+
+  const plot = echarts.init(plotEl);
+
+  const years = data.map((item) => item.year);
+  const growthRates = data.map((item) => item.growth_rate);
+
+  let option = {
+    tooltip: {
+      trigger: "axis",
+      formatter: "{b}: {c}%",
+    },
+    grid: { top: 20, right: 40, bottom: 50, left: 60 },
+    xAxis: {
+      type: "category",
+      data: years,
+    },
+    yAxis: {
+      type: "value",
+      axisLabel: {
+        formatter: "{value}%",
+      },
+    },
+    series: [
+      {
+        name: "Growth Rate",
+        type: "line",
+        smooth: 0.6,
+        symbol: "none",
+        data: growthRates,
+        lineStyle: {
+          width: 5,
+          color: "#262626",
+        },
+
+        markArea: {
+          silent: true,
+          itemStyle: {
+            color: "#f3f4f6",
+          },
+          data: [
+            [
+              { itemStyle: { color: "#e34f4f", opacity: 0.3 }, yAxis: 2 },
+              { yAxis: 2.5 },
+            ],
+            [
+              { itemStyle: { color: "#e3c14f", opacity: 0.3 }, yAxis: 1 },
+              { yAxis: 2 },
+            ],
+            [
+              { itemStyle: { color: "#b7e34f", opacity: 0.3 }, yAxis: 0 },
+              { yAxis: 1 },
+            ],
+          ],
+        },
+        markPoint: {
+          symbolSize: 60,
+          label: {
+            fontSize: 12,
+          },
+          itemStyle: {
+            color: "#374151",
+          },
+          data: [
+            { type: "max", name: "Peak" },
+            { type: "min", name: "Lowest" },
+          ],
+        },
+      },
+    ],
+  };
+
+  plot.setOption(option);
+  return plot;
 }
 
 function provideGrowthRate(data: { [key: string]: number }) {
@@ -101,13 +192,4 @@ function provideGrowthRate(data: { [key: string]: number }) {
   });
 
   return result;
-}
-
-function getColorByGrowthRate(growthRate: number | null) {
-  if (growthRate === null) return "gray";
-  const intensity = Math.min(Math.max(growthRate, 0), 5) * 180;
-  const r = Math.min(255 - intensity);
-  const g = Math.min(255 - intensity / 1.8);
-  const b = Math.min(255 - intensity);
-  return `rgb(${r}, ${g}, ${b})`;
 }

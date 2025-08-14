@@ -64,17 +64,19 @@ export default function TopPopulationCountries({
               Global Population Distribution
             </h4>
             <div className="space-y-3">
-              <div className="relative h-3 bg-gradient-to-r from-gray-100 to-gray-50 rounded-full overflow-hidden shadow-inner">
+              <div className="relative h-3 bg-gray-200 rounded-full overflow-hidden shadow-inner">
                 <div
-                  className="absolute left-0 top-0 h-full bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500 transition-all duration-500 ease-in-out"
+                  className="absolute left-0 top-0 h-full"
                   style={{
                     width: analysedData.populationOfTop10InPercentage + "%",
+                    backgroundColor: "#1D3C67",
+                    transition: "width 500ms ease-in-out",
                   }}
                 ></div>
               </div>
               <div className="flex justify-between text-sm text-gray-600">
                 <div>
-                  <span className="font-semibold text-blue-800">
+                  <span className="font-semibold" style={{ color: "#1D3C67" }}>
                     Top 10 Countries:
                   </span>{" "}
                   {analysedData.populationOfTop10InPercentage}% (
@@ -126,7 +128,7 @@ function generatePlot(data: CountryPopulation[], selectedItem: string) {
     },
     grid: {
       top: "40px",
-      left: "15%",
+      left: "100",
       right: "8%",
       bottom: "20px",
       containLabel: true,

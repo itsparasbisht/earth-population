@@ -120,7 +120,7 @@ function generatePlot(data: PopulationDecline) {
               population,
               0
             )}<br/>
-            <span style="color: #6A0572;">Decline:</span> ${decline.toFixed(2)}%
+            <span style="color: #B91C1C;">Decline:</span> ${decline.toFixed(2)}%
           </div>
         `;
       },
@@ -177,14 +177,14 @@ function generatePlot(data: PopulationDecline) {
         itemStyle: {
           color: "#fff",
           borderWidth: 2,
-          borderColor: "#6A0572",
+          borderColor: "#B91C1C",
           shadowBlur: 8,
-          shadowColor: "rgba(106, 5, 114, 0.5)",
+          shadowColor: "rgba(185, 28, 28, 0.5)",
         },
         lineStyle: {
-          color: "#6A0572",
+          color: "#B91C1C",
           width: 4,
-          shadowColor: "rgba(106, 5, 114, 0.4)",
+          shadowColor: "rgba(185, 28, 28, 0.4)",
           shadowBlur: 10,
         },
         areaStyle: {
@@ -197,11 +197,11 @@ function generatePlot(data: PopulationDecline) {
             colorStops: [
               {
                 offset: 0,
-                color: "rgba(106, 5, 114, 0.3)",
+                color: "rgba(185, 28, 28, 0.3)",
               },
               {
                 offset: 1,
-                color: "rgba(106, 5, 114, 0.01)",
+                color: "rgba(185, 28, 28, 0.01)",
               },
             ],
           },
@@ -209,7 +209,7 @@ function generatePlot(data: PopulationDecline) {
       },
     ],
     textStyle: {
-      color: "#6A0572",
+      color: "#B91C1C",
       fontFamily: "Lora",
     },
   };
