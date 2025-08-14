@@ -57,7 +57,7 @@ function App() {
         <div className="max-w-[1500px] mx-auto">
           {/* Top Bar */}
           <div className="flex items-center justify-between mb-10 text-xs tracking-wide">
-            <div className="font-lora">
+            <div className="font-serif">
               VOLUME I, NO. 1 •{" "}
               {new Date().toLocaleDateString("en-US", {
                 weekday: "long",
@@ -72,14 +72,14 @@ function App() {
                 target="_blank"
                 className="text-gray-600 hover:text-accent transition-colors"
               >
-                Data: World Bank
+                Data: <span className="font-bold">World Bank</span>
               </a>
               <a
                 href="https://www.linkedin.com/in/paras-bisht"
                 target="_blank"
                 className="text-gray-600 hover:text-accent transition-colors"
               >
-                By Paras Bisht
+                By <span className="font-bold">Paras Bisht</span>
               </a>
             </div>
           </div>
@@ -87,13 +87,13 @@ function App() {
           {/* Main Title */}
           <div className="text-center space-y-6">
             <div className="inline-block">
-              <h1 className="font-abril text-7xl mb-2">Earth Chronicle</h1>
+              <h1 className="font-display text-7xl mb-2">Earth Chronicle</h1>
               <div className="w-full h-[3px] bg-black"></div>
               <div className="w-full h-[1px] bg-black mt-1"></div>
             </div>
             <div className="max-w-2xl mx-auto space-y-3">
-              <h2 className="font-abril text-2xl">The Demographics Report</h2>
-              <p className="font-lora text-gray-600">
+              <h2 className="font-display text-2xl">The Demographics Report</h2>
+              <p className="font-serif text-gray-600">
                 An in-depth examination of global population trends, fertility
                 patterns, and demographic shifts shaping our world's future
               </p>
@@ -111,8 +111,7 @@ function App() {
                   Global Population at a Glance
                 </h2>
                 <p className="article-subheading">
-                  A comprehensive analysis of worldwide population trends and
-                  their implications for our future
+                  An overview of global population trends since 1960.
                 </p>
               </div>
               <div className="chart-section">
@@ -137,7 +136,7 @@ function App() {
               </h3>
               <p className="article-subheading">
                 Examining the distribution of global population across major
-                nations
+                nations.
               </p>
               <div className="chart-section">
                 <TopPopulationCountries
@@ -150,7 +149,7 @@ function App() {
               <h3 className="article-heading">Population Decline Trends</h3>
               <p className="article-subheading">
                 Investigating regions experiencing significant demographic
-                shifts
+                shifts.
               </p>
               <div className="chart-section">
                 <PopulationDeclineByCountry
@@ -162,7 +161,7 @@ function App() {
             <section className="mb-16 border-column pl-4">
               <h3 className="article-heading">Global Fertility Analysis</h3>
               <p className="article-subheading">
-                Understanding worldwide fertility rates and their impact
+                Understanding worldwide fertility rates and their impact.
               </p>
               <div className="chart-section">
                 <WorldFertility />
@@ -172,7 +171,7 @@ function App() {
             <section className="border-column pl-4">
               <h3 className="article-heading">Fertility Rates by Country</h3>
               <p className="article-subheading">
-                A detailed look at fertility patterns across nations
+                A detailed look at fertility patterns across nations.
               </p>
               <div className="chart-section">
                 <FertilityByCountry data={fertilityData?.fertilityByCountry} />
@@ -181,6 +180,31 @@ function App() {
           </article>
         </div>
       </main>
+      <footer className="text-gray-800 py-8 px-6 bg-[#FFFDF8]">
+        <div className="max-w-[1200px] mx-auto">
+          <div className="flex flex-col items-center border-t border-b border-gray-700 py-6 mb-6">
+            <h3 className="font-display text-2xl text-gray-900 mb-2">
+              Earth Chronicle
+            </h3>
+            <div className="text-sm font-serif text-center max-w-md">
+              <p className="mb-2">
+                An in-depth look at global population trends, fertility
+                patterns, and demographic shifts.
+              </p>
+              <p>
+                Developed by:{" "}
+                <a
+                  href="https://www.linkedin.com/in/paras-bisht"
+                  target="_blank"
+                  className="text-blue-600 hover:underline"
+                >
+                  Paras Bisht
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

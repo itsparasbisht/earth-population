@@ -36,7 +36,7 @@ export default function TopPopulationCountries({
   return (
     <div className="mt-6">
       <div className="flex justify-between items-center mb-8">
-        <h3 className="font-abril text-xl">
+        <h3 className="font-display text-xl">
           Population by Country (1960-2023)
         </h3>
         <Select onValueChange={setSelectedItem} value={selectedItem}>
@@ -59,8 +59,8 @@ export default function TopPopulationCountries({
 
         {/* Population Split */}
         {analysedData.populationOfTop10 > 0 && (
-          <div className="font-lora">
-            <h4 className="text-lg font-abril mb-4">
+          <div className="font-serif">
+            <h4 className="text-lg font-display mb-4">
               Global Population Distribution
             </h4>
             <div className="space-y-3">
@@ -134,7 +134,6 @@ function generatePlot(data: CountryPopulation[], selectedItem: string) {
       containLabel: true,
     },
     title: {
-      // text: "Population by Country (1960-2023)",
       left: "center",
       top: 10,
       textStyle: {

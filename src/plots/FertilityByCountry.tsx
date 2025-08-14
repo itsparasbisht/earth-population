@@ -90,7 +90,7 @@ export default function FertilityByCountry({ data }: FertilityByCountryProps) {
           onValueChange={setSelectedFertilityLevel}
           value={selectedFertilityLevel}
         >
-          <SelectTrigger className="w-[250px] border-2 relative top-7 z-50">
+          <SelectTrigger className="w-[250px] border-2 relative top-10 z-50">
             <SelectValue placeholder={fertilityLevelsOption[0]} />
           </SelectTrigger>
           <SelectContent>
@@ -105,7 +105,7 @@ export default function FertilityByCountry({ data }: FertilityByCountryProps) {
       <div
         id="fertility-by-country"
         ref={chartRef}
-        className="w-full min-w-[600px] h-[800px] max-h-[800px] px-4"
+        className="w-full min-w-[600px] h-[600px] max-h-[700px] px-4"
       ></div>
     </div>
   );
@@ -162,7 +162,7 @@ function generatePlotOption(
       },
     ],
     grid: {
-      top: 80,
+      top: 100,
       left: 60,
       right: 40,
       bottom: 120,
