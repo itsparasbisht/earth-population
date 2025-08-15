@@ -34,8 +34,9 @@ export default function FertilityShift() {
             text: "The Global Shift to Low Fertility",
             left: "center",
             textStyle: {
-              fontFamily: "Abril Fatface",
               fontSize: 24,
+              fontFamily: "Abril Fatface",
+              fontWeight: "normal",
               color: "#333",
             },
           },
