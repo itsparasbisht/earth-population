@@ -1,7 +1,7 @@
 import { PopulationDecline } from "@/functions/getPopulationData";
 import { formatBigNumber } from "../utils/formatter";
 import * as echarts from "echarts";
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 
 type PopulationDeclineProps = {
   data: PopulationDecline[];
@@ -10,11 +10,39 @@ type PopulationDeclineProps = {
 export default function PopulationDeclineByCountry({
   data,
 }: PopulationDeclineProps) {
+  const [currentPage, setCurrentPage] = useState(0);
+  const chartsPerPage = 6;
+
+  const paginatedData = data.slice(
+    currentPage * chartsPerPage,
+    (currentPage + 1) * chartsPerPage
+  );
+
+  const totalPages = Math.ceil(data.length / chartsPerPage);
+
   useEffect(() => {
-    if (data) {
-      for (let item of data) generatePlot(item);
+    if (paginatedData) {
+      // A timeout ensures that the DOM elements are available before rendering the charts.
+      const timer = setTimeout(() => {
+        for (const item of paginatedData) {
+          generatePlot(item);
+        }
+      }, 0);
+      return () => clearTimeout(timer);
     }
-  }, [data]);
+  }, [paginatedData]);
+
+  const handleNext = () => {
+    if (currentPage < totalPages - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   return (
     <div className="mt-6 space-y-8">
@@ -57,8 +85,8 @@ export default function PopulationDeclineByCountry({
 
       {/* Charts Grid */}
       <div className="w-full">
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
-          {data.map((item) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {paginatedData.map((item) => (
             <div
               key={item.country}
               id={`${item.country}`}
@@ -66,6 +94,29 @@ export default function PopulationDeclineByCountry({
             ></div>
           ))}
         </div>
+      </div>
+
+      {/* Pagination Controls */}
+      <div className="flex justify-center items-center space-x-8 mt-8">
+        <button
+          onClick={handlePrev}
+          disabled={currentPage === 0}
+          className="font-lora px-3 py-1 bg-transparent hover:bg-gray-100/50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center uppercase text-xs tracking-widest text-gray-700"
+        >
+          <span className="mr-2 text-base font-normal">&larr;</span>
+          Prev
+        </button>
+        <span className="font-lora text-xs text-gray-500 tracking-widest">
+          {currentPage + 1} of {totalPages}
+        </span>
+        <button
+          onClick={handleNext}
+          disabled={currentPage >= totalPages - 1}
+          className="font-lora px-3 py-1 bg-transparent hover:bg-gray-100/50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center uppercase text-xs tracking-widest text-gray-700"
+        >
+          Next
+          <span className="ml-2 text-base font-normal">&rarr;</span>
+        </button>
       </div>
     </div>
   );
