@@ -139,15 +139,15 @@ function generatePlot(data: PopulationGrowth[]): echarts.ECharts {
           },
           data: [
             [
-              { itemStyle: { color: "#e34f4f", opacity: 0.3 }, yAxis: 2 },
+              { itemStyle: { color: "#e34f4f", opacity: 0.4 }, yAxis: 2 },
               { yAxis: 2.5 },
             ],
             [
-              { itemStyle: { color: "#e3c14f", opacity: 0.3 }, yAxis: 1 },
+              { itemStyle: { color: "#e3c14f", opacity: 0.4 }, yAxis: 1 },
               { yAxis: 2 },
             ],
             [
-              { itemStyle: { color: "#b7e34f", opacity: 0.3 }, yAxis: 0 },
+              { itemStyle: { color: "#b7e34f", opacity: 0.4 }, yAxis: 0 },
               { yAxis: 1 },
             ],
           ],

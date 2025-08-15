@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Loading } from "./components/ui/loading";
 import "./styles/charts.css";
 import "./styles/newspaper.css";
 import { FertilityData, getFertilityData } from "./functions/getFertilityData";
@@ -13,6 +12,7 @@ import PopulationGrowthGrid from "./plots/PopulationGrowthGrid";
 import TopPopulationCountries from "./plots/TopPopulationCountries";
 import WorldFertility from "./plots/WorldFertility";
 import WorldPopulation from "./plots/WorldPopulation";
+import FertilityShift from "./plots/FertilityShift";
 
 function App() {
   const [populationData, setPopulationData] = useState<PopulationData>({
@@ -25,12 +25,9 @@ function App() {
     fertilityByCountry: [],
   });
 
-  const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setIsLoading(true);
         const { worldPopulation, countriesPopulation, populationDecline } =
           await getPopulationData();
         setPopulationData({
@@ -43,8 +40,6 @@ function App() {
         setFertilityData({ fertilityByCountry });
       } catch (err) {
         console.error("failed to fetch population data", err);
-      } finally {
-        setIsLoading(false);
       }
     };
 
@@ -165,6 +160,19 @@ function App() {
               </p>
               <div className="chart-section">
                 <WorldFertility />
+              </div>
+            </section>
+
+            <section className="mb-16 border-column pl-4">
+              <h3 className="article-heading">
+                The Global Shift to Low Fertility
+              </h3>
+              <p className="article-subheading">
+                A visualization of how countries have transitioned between
+                fertility levels over the decades.
+              </p>
+              <div className="chart-section">
+                <FertilityShift />
               </div>
             </section>
 
